@@ -1,0 +1,122 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\GitHubRepos\\cs3354-group7\\backend\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\GitHubRepos\\cs3354-group7\\backend\\TextbookExchangeApp.Tests\\ReplyController\\ReplyController_CreateReply_Tests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:TextbookExchangeApp.Tests\\ReplyController\\ReplyController_CreateReply_Tests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\GitHubRepos\\cs3354-group7\\backend\\TextbookExchangeApp.Tests\\ListController\\ListController_CreateListing_Tests.cs||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:TextbookExchangeApp.Tests\\ListController\\ListController_CreateListing_Tests.cs||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\GitHubRepos\\cs3354-group7\\backend\\TextbookExchangeApp.Tests\\AuthController_CreateAccount_Tests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:TextbookExchangeApp.Tests\\AuthController_CreateAccount_Tests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\GitHubRepos\\cs3354-group7\\backend\\TextbookExchangeApp.Tests\\TextbookExchangeApp.Tests.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:TextbookExchangeApp.Tests\\TextbookExchangeApp.Tests.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\GitHubRepos\\cs3354-group7\\backend\\TextbookExchangeApp.Tests\\AuthController_Logout_Tests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:TextbookExchangeApp.Tests\\AuthController_Logout_Tests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\GitHubRepos\\cs3354-group7\\backend\\TextbookExchangeApp.Tests\\AuthController_Login_Tests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:TextbookExchangeApp.Tests\\AuthController_Login_Tests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ListController_CreateListing_Tests.cs",
+              "DocumentMoniker": "C:\\GitHubRepos\\cs3354-group7\\backend\\TextbookExchangeApp.Tests\\ListController\\ListController_CreateListing_Tests.cs",
+              "RelativeDocumentMoniker": "TextbookExchangeApp.Tests\\ListController\\ListController_CreateListing_Tests.cs",
+              "ToolTip": "C:\\GitHubRepos\\cs3354-group7\\backend\\TextbookExchangeApp.Tests\\ListController\\ListController_CreateListing_Tests.cs",
+              "RelativeToolTip": "TextbookExchangeApp.Tests\\ListController\\ListController_CreateListing_Tests.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-02T03:41:47.113Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ReplyController_CreateReply_Tests.cs",
+              "DocumentMoniker": "C:\\GitHubRepos\\cs3354-group7\\backend\\TextbookExchangeApp.Tests\\ReplyController\\ReplyController_CreateReply_Tests.cs",
+              "RelativeDocumentMoniker": "TextbookExchangeApp.Tests\\ReplyController\\ReplyController_CreateReply_Tests.cs",
+              "ToolTip": "C:\\GitHubRepos\\cs3354-group7\\backend\\TextbookExchangeApp.Tests\\ReplyController\\ReplyController_CreateReply_Tests.cs",
+              "RelativeToolTip": "TextbookExchangeApp.Tests\\ReplyController\\ReplyController_CreateReply_Tests.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-02T03:42:47.833Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AuthController_CreateAccount_Tests.cs",
+              "DocumentMoniker": "C:\\GitHubRepos\\cs3354-group7\\backend\\TextbookExchangeApp.Tests\\AuthController_CreateAccount_Tests.cs",
+              "RelativeDocumentMoniker": "TextbookExchangeApp.Tests\\AuthController_CreateAccount_Tests.cs",
+              "ToolTip": "C:\\GitHubRepos\\cs3354-group7\\backend\\TextbookExchangeApp.Tests\\AuthController_CreateAccount_Tests.cs",
+              "RelativeToolTip": "TextbookExchangeApp.Tests\\AuthController_CreateAccount_Tests.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-02T03:42:55.702Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "TextbookExchangeApp.Tests.csproj",
+              "DocumentMoniker": "C:\\GitHubRepos\\cs3354-group7\\backend\\TextbookExchangeApp.Tests\\TextbookExchangeApp.Tests.csproj",
+              "RelativeDocumentMoniker": "TextbookExchangeApp.Tests\\TextbookExchangeApp.Tests.csproj",
+              "ToolTip": "C:\\GitHubRepos\\cs3354-group7\\backend\\TextbookExchangeApp.Tests\\TextbookExchangeApp.Tests.csproj",
+              "RelativeToolTip": "TextbookExchangeApp.Tests\\TextbookExchangeApp.Tests.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-04-02T03:39:23.126Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AuthController_Logout_Tests.cs",
+              "DocumentMoniker": "C:\\GitHubRepos\\cs3354-group7\\backend\\TextbookExchangeApp.Tests\\AuthController_Logout_Tests.cs",
+              "RelativeDocumentMoniker": "TextbookExchangeApp.Tests\\AuthController_Logout_Tests.cs",
+              "ToolTip": "C:\\GitHubRepos\\cs3354-group7\\backend\\TextbookExchangeApp.Tests\\AuthController_Logout_Tests.cs",
+              "RelativeToolTip": "TextbookExchangeApp.Tests\\AuthController_Logout_Tests.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-02T03:38:53.75Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AuthController_Login_Tests.cs",
+              "DocumentMoniker": "C:\\GitHubRepos\\cs3354-group7\\backend\\TextbookExchangeApp.Tests\\AuthController_Login_Tests.cs",
+              "RelativeDocumentMoniker": "TextbookExchangeApp.Tests\\AuthController_Login_Tests.cs",
+              "ToolTip": "C:\\GitHubRepos\\cs3354-group7\\backend\\TextbookExchangeApp.Tests\\AuthController_Login_Tests.cs",
+              "RelativeToolTip": "TextbookExchangeApp.Tests\\AuthController_Login_Tests.cs",
+              "ViewState": "AgIAACcAAAAAAAAAAAAAAAkAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-02T03:38:43.345Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

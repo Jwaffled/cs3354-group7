@@ -1,0 +1,10 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\TextbookExchangeApp.Tests",
+    "\\TextbookExchangeApp.Tests\\ListController",
+    "\\TextbookExchangeApp.Tests\\ReplyController"
+  ],
+  "SelectedNode": "\\TextbookExchangeApp.Tests\\ReplyController\\ReplyController_CreateReply_Tests.cs",
+  "PreviewInSolutionExplorer": false
+}
