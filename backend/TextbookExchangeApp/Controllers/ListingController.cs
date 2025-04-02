@@ -1,7 +1,6 @@
-﻿using TextbookExchangeApp.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
-using TextbookExchangeApp.EntityFramework;
+﻿using Microsoft.AspNetCore.Mvc;
+using TextbookExchangeApp.Services.Listing;
+using TextbookExchangeApp.Services.Listing.Dto;
 
 namespace TextbookExchangeApp.Controllers
 
@@ -10,49 +9,38 @@ namespace TextbookExchangeApp.Controllers
     [Route("/api/[controller]")]
     public class ListingController : ControllerBase
     {
-        private readonly ApplicationDbContext cTxt;
-        public ListingController(ApplicationDbContext db)
+        private readonly IListingService _listingService;
+        public ListingController(IListingService listingService)
         {
-            cTxt = db;
+            _listingService = listingService;
         }
 
-        //create listings
-        [HttpPost("Create-Listing")]
-        public async Task<IActionResult> newListing([FromBody] TextbookListing newBook)
+        [HttpPost("create")]
+        public async Task<IActionResult> CreateListing([FromBody] ListingDto dto)
         {
-            if (newBook == null)
-            {
-                return BadRequest("Invalid Listing");
-            }
-
-            cTxt.listings.Add(newBook);
-            await cTxt.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(findListing), new { id = newBook.listingID }, newBook);
+            await _listingService.CreateListingAsync(dto);
+            return Ok(new { message = "Listing created successfully." });
         }
 
-        //find listing using the listing id
-        [HttpGet("{listingid}")]
-        public async Task<IActionResult> findListing(string listingid)
+        [HttpGet("{listingId}")]
+        public async Task<IActionResult> GetListingById(int listingId)
         {
-            var result = await cTxt.listings
-                .Include(l => l.replyList)
-                .FirstOrDefaultAsync(l => l.listingID == listingid);
-
-            if (result == null)
+            var data = await _listingService.GetListingByIdAsync(listingId);
+            if (data == null)
             {
                 return NotFound();
             }
 
-            return Ok(result);
+            return Ok(data);
         }
 
         //get all listings
         [HttpGet]
-        public async Task<IActionResult> returnAll()
+        public async Task<IActionResult> GetAllListings()
         {
-            var allListings = await cTxt.listings.Include(l => l.replyList).ToListAsync();
-            return Ok(allListings);
+            var data = await _listingService.GetAllListingsAsync();
+
+            return Ok(data);
         }
     }
 }

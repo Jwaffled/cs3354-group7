@@ -3,7 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using TextbookExchangeApp.EntityFramework;
 using TextbookExchangeApp.Models;
+using TextbookExchangeApp.Services.Listing;
 using TextbookExchangeApp.Services.Login;
+using TextbookExchangeApp.Services.Reply;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +32,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
     
 builder.Services.AddScoped<ILoginService, LoginService>();
+builder.Services.AddScoped<IListingService, ListingService>();
+builder.Services.AddScoped<IReplyService, ReplyService>();
     
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 builder.Services.AddControllers();
