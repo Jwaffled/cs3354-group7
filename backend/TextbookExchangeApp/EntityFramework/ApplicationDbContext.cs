@@ -11,9 +11,16 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
     }
 
+    public DbSet<TextbookListing> listings { get; set; }
+    public DbSet<reply> allReplies { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
         // Add other model configurations here
+        builder.Entity<reply>()
+            .HasOne(postReply => postReply.listing)
+            .WithMany(bkListing => bkListing.replyList)
+            .HasForeignKey(postReply => postReply.listingID)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }
