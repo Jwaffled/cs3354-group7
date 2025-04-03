@@ -1,4 +1,5 @@
 ﻿/obj
 /bin
 /.idea
-appsettings.Development.json
+/.vs
+/appsettings.Development.json
