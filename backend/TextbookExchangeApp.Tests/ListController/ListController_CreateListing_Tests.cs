@@ -25,10 +25,9 @@ namespace TextbookExchangeApp.Tests.Controllers
             // Create valid listing
             var response = await _client.PostAsync("/api/listing/create", JsonContent.Create(new
             {
-                Id = 1,
                 Title = "Test Book",
                 Description = "A book for testing",
-                Price = 20.0M,
+                Price = 20.0,
                 Condition = 1,
                 AuthorID = "36b5d449-ef8d-49ea-aa48-058efd6ef079"
             }));
@@ -50,7 +49,6 @@ namespace TextbookExchangeApp.Tests.Controllers
             // Create an invalid listing; missing title
             var response = await _client.PostAsync("/api/listing/create", JsonContent.Create(new
             {
-                Id = 1,
                 Description = "A book with no title",
                 Condition = 1,
                 Price = 15.0M,

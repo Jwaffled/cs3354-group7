@@ -25,7 +25,6 @@ namespace TextbookExchangeApp.Tests.Controllers
             // Create a valid reply
             var response = await _client.PostAsync("/api/replies", JsonContent.Create(new
             {
-                Id = 1,
                 Message = "This is a test reply",
                 ListingId = 1,
                 AuthorID = "36b5d449-ef8d-49ea-aa48-058efd6ef079"
@@ -48,7 +47,6 @@ namespace TextbookExchangeApp.Tests.Controllers
             // Create an invalid reply; missing Message
             var response = await _client.PostAsync("/api/replies", JsonContent.Create(new
             {
-                Id = 1,
                 ListingId = 1,
                 AuthorID = "36b5d449-ef8d-49ea-aa48-058efd6ef079"
             }));
