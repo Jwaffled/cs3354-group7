@@ -4,9 +4,13 @@ services:
     container_name: backend
     expose:
       - 80
+    ports:
+      - "5000:80"
 
   frontend:
     build: ./frontend/textbook-exchange-app
     container_name: frontend
     expose:
       - 80
+    ports:
+      - "3000:80"
