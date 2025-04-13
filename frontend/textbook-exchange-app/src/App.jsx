@@ -1,11 +1,9 @@
 import { Routes, Route, Link } from "react-router-dom";
-import Home from "./pages/Home";
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
   return (
-    <div>
-      <Home />
-    </div>
+    <AppRoutes />
   );
 }
 

@@ -12,11 +12,13 @@ namespace TextbookExchangeApp.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly UserManager<ApplicationUser> _userManager;
     private readonly ILoginService _loginService;
 
-    public AuthController(SignInManager<ApplicationUser> signInManager, ILoginService loginService)
+    public AuthController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ILoginService loginService)
     {
         _signInManager = signInManager;
+        _userManager = userManager;
         _loginService = loginService;
     }
 
@@ -50,5 +52,23 @@ public class AuthController : ControllerBase
     {
         await _signInManager.SignOutAsync();
         return Ok(new { message = "Signed out successfully." });
+    }
+
+    [Authorize]
+    [HttpGet("me")]
+    public async Task<IActionResult> GetMe()
+    {
+        var user = await _userManager.GetUserAsync(User);
+
+        if (user == null)
+        {
+            return Unauthorized(new { message = "User not found." });
+        }
+
+        return Ok(new AccountInfoDto
+        {
+            Id = user.Id,
+            Email = user.Email,
+        });
     }
 }
