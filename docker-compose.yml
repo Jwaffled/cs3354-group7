@@ -3,7 +3,7 @@ services:
     build: ./backend
     container_name: backend
     environment:
-      - ASPNETCORE_URLS:http://+:80
+      - ASPNETCORE_URLS=http://+:80
     expose:
       - 80
     ports:
