@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TextbookExchangeApp.Enums;
 using TextbookExchangeApp.Services.Listing;
 using TextbookExchangeApp.Services.Listing.Dto;
@@ -16,6 +17,7 @@ namespace TextbookExchangeApp.Controllers
             _listingService = listingService;
         }
 
+        [Authorize]
         [HttpPost("create")]
         public async Task<IActionResult> CreateListing([FromBody] ListingDto dto)
         {
@@ -23,6 +25,7 @@ namespace TextbookExchangeApp.Controllers
             return Ok(new { message = "Listing created successfully." });
         }
 
+        [Authorize]
         [HttpGet("{listingId}")]
         public async Task<IActionResult> GetListingById(int listingId)
         {
@@ -35,6 +38,7 @@ namespace TextbookExchangeApp.Controllers
             return Ok(data);
         }
 
+        [Authorize]
         [HttpGet("{listingId}/details")]
         public async Task<IActionResult> GetListingDetails(int listingId)
         {
@@ -47,6 +51,7 @@ namespace TextbookExchangeApp.Controllers
             return Ok(data);
         }
 
+        [Authorize]
         [HttpGet("details")]
         public async Task<IActionResult> GetAllListingDetails()
         {
@@ -55,6 +60,7 @@ namespace TextbookExchangeApp.Controllers
             return Ok(data);
         }
 
+        [Authorize]
         [HttpGet("conditions")]
         public async Task<IActionResult> GetAllListingConditions()
         {
@@ -71,6 +77,7 @@ namespace TextbookExchangeApp.Controllers
         }
 
         //get all listings
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAllListings()
         {
