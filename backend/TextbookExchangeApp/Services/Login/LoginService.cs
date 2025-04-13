@@ -17,7 +17,7 @@ public class LoginService : ILoginService
 
     public async Task<IdentityResult> CreateAccountAsync(CreateAccountDto dto)
     {
-        var user = new ApplicationUser { UserName = dto.Email, Email = dto.Email };
+        var user = new ApplicationUser { UserName = dto.Email, Email = dto.Email, FirstName = dto.FirstName, LastName = dto.LastName };
         return await _userManager.CreateAsync(user, dto.Password);
     }
 

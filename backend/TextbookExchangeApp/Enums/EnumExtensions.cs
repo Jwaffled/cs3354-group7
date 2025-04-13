@@ -1,6 +1,16 @@
-﻿namespace TextbookExchangeApp.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 
-public class EnumExtensions
+namespace TextbookExchangeApp.Enums;
+
+public static class EnumExtensions
 {
-    
+    public static string GetDisplayName(this Enum value)
+    {
+        return value.GetType()
+            .GetMember(value.ToString())
+            .First()
+            .GetCustomAttribute<DisplayAttribute>()?
+            .GetName() ?? value.ToString();
+    }
 }

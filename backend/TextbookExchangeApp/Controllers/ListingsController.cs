@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TextbookExchangeApp.Enums;
 using TextbookExchangeApp.Services.Listing;
 using TextbookExchangeApp.Services.Listing.Dto;
 
@@ -7,10 +8,10 @@ namespace TextbookExchangeApp.Controllers
 {
     [ApiController]
     [Route("/api/[controller]")]
-    public class ListingController : ControllerBase
+    public class ListingsController : ControllerBase
     {
         private readonly IListingService _listingService;
-        public ListingController(IListingService listingService)
+        public ListingsController(IListingService listingService)
         {
             _listingService = listingService;
         }
@@ -30,6 +31,41 @@ namespace TextbookExchangeApp.Controllers
             {
                 return NotFound();
             }
+
+            return Ok(data);
+        }
+
+        [HttpGet("{listingId}/details")]
+        public async Task<IActionResult> GetListingDetails(int listingId)
+        {
+            var data = await _listingService.GetListingDetailsAsync(listingId);
+            if (data == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(data);
+        }
+
+        [HttpGet("details")]
+        public async Task<IActionResult> GetAllListingDetails()
+        {
+            var data = await _listingService.GetAllListingDetailsAsync();
+
+            return Ok(data);
+        }
+
+        [HttpGet("conditions")]
+        public async Task<IActionResult> GetAllListingConditions()
+        {
+            var data = Enum.GetValues(typeof(Enums.TextbookCondition))
+                .Cast<Enums.TextbookCondition>()
+                .Select(c => new
+                {
+                    Value = (int)c,
+                    Label = c.GetDisplayName()
+                })
+                .ToList();
 
             return Ok(data);
         }

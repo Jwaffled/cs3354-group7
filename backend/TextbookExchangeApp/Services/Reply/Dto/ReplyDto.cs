@@ -6,7 +6,7 @@ public class ReplyDto
     public string Message { get; set; }
     
     public int ListingId { get; set; }
-    public string AuthorId { get; set; }
+    public string CreatedById { get; set; }
 
     public Models.Reply ConvertToModel()
     {
@@ -15,7 +15,7 @@ public class ReplyDto
             Id = Id,
             Message = Message,
             ListingId = ListingId,
-            AuthorId = AuthorId
+            CreatedById = CreatedById,
         };
     }
 }

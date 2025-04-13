@@ -13,8 +13,7 @@ public class ListingDto
     public double Price { get; set; }
     [Required]
     public Enums.TextbookCondition Condition { get; set; }
-
-    public string AuthorId { get; set; }
+    public string ImageUrl { get; set; }
 
     public Models.Listing ConvertToModel()
     {
@@ -25,7 +24,7 @@ public class ListingDto
             Description = Description,
             Price = Price,
             Condition = Condition,
-            AuthorId = AuthorId
+            ImageUrl = ImageUrl
         };
     }
 }

@@ -4,6 +4,9 @@ namespace TextbookExchangeApp.Models;
 
 public class ApplicationUser : IdentityUser
 {
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+
     // Navigation Properties
     public List<Listing> Listings { get; set; }
     public List<Reply> Replies { get; set; }
