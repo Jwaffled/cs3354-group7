@@ -1,19 +1,19 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default function ListingCreatePage() {
     const navigate = useNavigate();
     const [form, setForm] = useState({
-        title: "",
-        description: "",
-        price: "",
-        condition: ""
+        title: '',
+        description: '',
+        price: '',
+        condition: '',
     });
 
     const [conditions, setConditions] = useState([]);
@@ -21,33 +21,38 @@ export default function ListingCreatePage() {
     useEffect(() => {
         const fetchConditions = async () => {
             try {
-                const response = await fetch(`${API_BASE_URL}/api/listings/conditions`, {
-                    credentials: 'include',
-                });
+                const response = await fetch(
+                    `${API_BASE_URL}/api/listings/conditions`,
+                    {
+                        credentials: 'include',
+                    }
+                );
 
                 if (!response.ok) {
-                    navigate("/error", {
-                        state: { status: response.status, message: "Error loading condition dropdown." }
+                    navigate('/error', {
+                        state: {
+                            status: response.status,
+                            message: 'Error loading condition dropdown.',
+                        },
                     });
                 } else {
                     const data = await response.json();
                     setConditions(data);
                 }
             } catch (err) {
-                navigate("/error", {
-                    state: { message: err }
+                navigate('/error', {
+                    state: { message: err },
                 });
             }
-        }
+        };
 
         fetchConditions();
     }, [navigate]);
 
-
     const handleChange = (e) => {
         setForm((prev) => ({
             ...prev,
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value,
         }));
     };
 
@@ -59,27 +64,35 @@ export default function ListingCreatePage() {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ ...form, condition: parseInt(form.condition) })
+                body: JSON.stringify({
+                    ...form,
+                    condition: parseInt(form.condition),
+                }),
             });
 
-            navigate("/listings", {
-                state: { showToast: true, toastMessage: "Listing created successfully!" }
-            })
+            navigate('/listings', {
+                state: {
+                    showToast: true,
+                    toastMessage: 'Listing created successfully!',
+                },
+            });
         } catch (err) {
-            navigate("/error", {
-                state: { message: err }
+            navigate('/error', {
+                state: { message: err },
             });
         }
-    }
+    };
 
     return (
         <div className="max-w-2xl mx-auto py-10 px-4">
             <h1 className="text-3xl font-bold mb-6">Create a New Listing</h1>
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                    <Label htmlFor="title" className="mb-2">Title</Label>
+                    <Label htmlFor="title" className="mb-2">
+                        Title
+                    </Label>
                     <Input
                         name="title"
                         value={form.title}
@@ -89,7 +102,9 @@ export default function ListingCreatePage() {
                 </div>
 
                 <div>
-                    <Label htmlFor="description" className="mb-2">Description</Label>
+                    <Label htmlFor="description" className="mb-2">
+                        Description
+                    </Label>
                     <Textarea
                         name="description"
                         value={form.description}
@@ -99,7 +114,9 @@ export default function ListingCreatePage() {
                 </div>
 
                 <div>
-                    <Label htmlFor="price" className="mb-2">Price</Label>
+                    <Label htmlFor="price" className="mb-2">
+                        Price
+                    </Label>
                     <Input
                         name="price"
                         type="number"
@@ -112,7 +129,9 @@ export default function ListingCreatePage() {
                 </div>
 
                 <div>
-                    <Label htmlFor="condition" className="mb-2">Condition</Label>
+                    <Label htmlFor="condition" className="mb-2">
+                        Condition
+                    </Label>
                     <select
                         name="condition"
                         value={form.condition}
@@ -130,7 +149,9 @@ export default function ListingCreatePage() {
                 </div>
 
                 <div>
-                    <Label htmlFor="imageUrl" className="mb-2">Image URL</Label>
+                    <Label htmlFor="imageUrl" className="mb-2">
+                        Image URL
+                    </Label>
                     <Input
                         name="imageUrl"
                         type="text"

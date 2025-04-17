@@ -1,35 +1,37 @@
-import { useState } from "react";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { useState } from 'react';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
 export default function AuthForm({ type = 'login', onSubmit }) {
     const [form, setForm] = useState({
-        email: "",
-        password: "",
-        firstName: "",
-        lastName: "",
-        confirmPassword: ""
+        email: '',
+        password: '',
+        firstName: '',
+        lastName: '',
+        confirmPassword: '',
     });
 
     const handleChange = (e) => {
         setForm((prev) => ({
             ...prev,
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value,
         }));
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         onSubmit(form);
-    }
+    };
 
     const isRegister = type === 'register';
 
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-                <Label htmlFor="email" className="mb-2">Email</Label>
+                <Label htmlFor="email" className="mb-2">
+                    Email
+                </Label>
                 <Input
                     type="email"
                     name="email"
@@ -40,9 +42,11 @@ export default function AuthForm({ type = 'login', onSubmit }) {
             </div>
             {isRegister && (
                 <div>
-                    <Label htmlFor="firstName" className="mb-2">First Name</Label>
+                    <Label htmlFor="firstName" className="mb-2">
+                        First Name
+                    </Label>
                     <Input
-                        type='text'
+                        type="text"
                         name="firstName"
                         value={form.firstName}
                         onChange={handleChange}
@@ -52,9 +56,11 @@ export default function AuthForm({ type = 'login', onSubmit }) {
             )}
             {isRegister && (
                 <div>
-                    <Label htmlFor="lastName" className="mb-2">Last Name</Label>
+                    <Label htmlFor="lastName" className="mb-2">
+                        Last Name
+                    </Label>
                     <Input
-                        type='text'
+                        type="text"
                         name="lastName"
                         value={form.lastName}
                         onChange={handleChange}
@@ -63,7 +69,9 @@ export default function AuthForm({ type = 'login', onSubmit }) {
                 </div>
             )}
             <div>
-                <Label htmlFor="password" className="mb-2">Password</Label>
+                <Label htmlFor="password" className="mb-2">
+                    Password
+                </Label>
                 <Input
                     type="password"
                     name="password"
@@ -74,7 +82,9 @@ export default function AuthForm({ type = 'login', onSubmit }) {
             </div>
             {isRegister && (
                 <div>
-                    <Label htmlFor="confirmPassword" className="mb-2">Confirm Password</Label>
+                    <Label htmlFor="confirmPassword" className="mb-2">
+                        Confirm Password
+                    </Label>
                     <Input
                         type="password"
                         name="confirmPassword"
@@ -85,7 +95,7 @@ export default function AuthForm({ type = 'login', onSubmit }) {
                 </div>
             )}
             <Button type="submit" className="w-full">
-                {isRegister ? "Register" : "Login"}
+                {isRegister ? 'Register' : 'Login'}
             </Button>
         </form>
     );

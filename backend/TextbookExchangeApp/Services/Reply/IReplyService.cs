@@ -6,6 +6,6 @@ public interface IReplyService
 {
     Task CreateReplyAsync(ReplyDto dto);
     Task<ReplyDto?> GetReplyByIdAsync(int id);
-    Task<List<ReplyDto>> GetAllRepliesAsync(int listingId);
+    Task<List<ReplyDetailsDto>> GetAllRepliesAsync(int listingId);
     Task<List<ReplyDto>> GetAllRepliesAsync();
 }

@@ -1,4 +1,4 @@
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from '@/context/AuthContext';
 
 export default function ProfilePage() {
     const { user } = useAuth();
@@ -11,10 +11,12 @@ export default function ProfilePage() {
                     <span className="font-semibold">Email:</span> {user.email}
                 </div>
                 <div>
-                    <span className="font-semibold">First Name:</span> {user.firstName}
+                    <span className="font-semibold">First Name:</span>{' '}
+                    {user.firstName}
                 </div>
                 <div>
-                    <span className="font-semibold">Last Name:</span> {user.lastName}
+                    <span className="font-semibold">Last Name:</span>{' '}
+                    {user.lastName}
                 </div>
             </div>
         </div>

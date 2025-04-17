@@ -1,6 +1,6 @@
-import { Link, Outlet, useNavigate } from "react-router-dom";
-import { useAuth } from "@/context/AuthContext";
-import { Toaster } from "sonner";
+import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { useAuth } from '@/context/AuthContext';
+import { Toaster } from 'sonner';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -14,9 +14,9 @@ import {
     DropdownMenuSubContent,
     DropdownMenuSubTrigger,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Button } from "@/components/ui/button";
-import { ChevronDown } from "lucide-react";
+} from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
+import { ChevronDown } from 'lucide-react';
 
 const MainLayout = () => {
     const { user, logout } = useAuth();
@@ -34,16 +34,23 @@ const MainLayout = () => {
                         {/* Listings Dropdown */}
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" className="text-black hover:bg-gray-100">
+                                <Button
+                                    variant="ghost"
+                                    className="text-black hover:bg-gray-100"
+                                >
                                     Listings
                                     <ChevronDown className="w-4 h-4" />
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                                <DropdownMenuItem onClick={() => navigate("/listings")}>
+                                <DropdownMenuItem
+                                    onClick={() => navigate('/listings')}
+                                >
                                     Browse Listings
                                 </DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => navigate("/listings/create")}>
+                                <DropdownMenuItem
+                                    onClick={() => navigate('/listings/create')}
+                                >
                                     New Listing
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
@@ -52,16 +59,23 @@ const MainLayout = () => {
                         {/* Forums Dropdown */}
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" className="text-black hover:bg-gray-100">
+                                <Button
+                                    variant="ghost"
+                                    className="text-black hover:bg-gray-100"
+                                >
                                     Forums
                                     <ChevronDown className="w-4 h-4" />
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                                <DropdownMenuItem onClick={() => navigate("/forums")}>
+                                <DropdownMenuItem
+                                    onClick={() => navigate('/forums')}
+                                >
                                     View Forums
                                 </DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => navigate("/forums/new")}>
+                                <DropdownMenuItem
+                                    onClick={() => navigate('/forums/new')}
+                                >
                                     New Post
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
@@ -70,13 +84,18 @@ const MainLayout = () => {
                         {/* Profile Dropdown */}
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" className="text-black hover:bg-gray-100">
+                                <Button
+                                    variant="ghost"
+                                    className="text-black hover:bg-gray-100"
+                                >
                                     Welcome, {user.firstName}
                                     <ChevronDown className="w-4 h-4" />
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                                <DropdownMenuItem onClick={() => navigate("/profile")}>
+                                <DropdownMenuItem
+                                    onClick={() => navigate('/profile')}
+                                >
                                     Profile
                                 </DropdownMenuItem>
                                 <DropdownMenuItem onClick={() => logout()}>

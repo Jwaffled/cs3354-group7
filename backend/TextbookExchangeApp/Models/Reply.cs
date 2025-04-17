@@ -8,6 +8,7 @@ namespace TextbookExchangeApp.Models;
 public class Reply : IAuditableEntity
 {
     public int Id { get; set; }
+    public int Rating { get; set; }
     public string Message { get; set; }
     // Foreign Keys
     public int ListingId { get; set; }
@@ -24,8 +25,10 @@ public class Reply : IAuditableEntity
         {
             Id = Id,
             Message = Message,
+            Rating = Rating,
             ListingId = ListingId,
-            CreatedById = CreatedById
+            CreatedById = CreatedById,
+            CreatedAt = CreatedAt,
         };
     }
 }

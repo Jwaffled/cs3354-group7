@@ -4,9 +4,11 @@ public class ReplyDto
 {
     public int Id {  get; set; }
     public string Message { get; set; }
-    
+    public int Rating { get; set; }
+
     public int ListingId { get; set; }
-    public string CreatedById { get; set; }
+    public string? CreatedById { get; set; }
+    public DateTime? CreatedAt { get; set; }
 
     public Models.Reply ConvertToModel()
     {
@@ -14,8 +16,8 @@ public class ReplyDto
         {
             Id = Id,
             Message = Message,
+            Rating = Rating,
             ListingId = ListingId,
-            CreatedById = CreatedById,
         };
     }
 }

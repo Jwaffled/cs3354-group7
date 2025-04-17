@@ -1,6 +1,6 @@
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/context/AuthContext";
-import { Button } from "@/components/ui/button";
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/context/AuthContext';
+import { Button } from '@/components/ui/button';
 
 export default function HomePage() {
     const navigate = useNavigate();
@@ -8,7 +8,7 @@ export default function HomePage() {
 
     const handleClick = () => {
         navigate(user ? '/listings' : '/login');
-    }
+    };
 
     return (
         <div className="bg-white h-full flex-1 flex items-center justify-center px-4">
@@ -20,13 +20,20 @@ export default function HomePage() {
                 />
 
                 <div className="relative z-10">
-                    <h1 className="text-4xl md:text-5xl font-bold mb-3">UTD Textbook Exchange</h1>
-                    <p className="text-xl text-gray-600 mb-6">Books by Comets, For Comets</p>
-                    <Button onClick={handleClick} className="bg-primary text-base px-6 py-3 rounded-xl">
+                    <h1 className="text-4xl md:text-5xl font-bold mb-3">
+                        UTD Textbook Exchange
+                    </h1>
+                    <p className="text-xl text-gray-600 mb-6">
+                        Books by Comets, For Comets
+                    </p>
+                    <Button
+                        onClick={handleClick}
+                        className="bg-primary text-base px-6 py-3 rounded-xl"
+                    >
                         Get Started
                     </Button>
                 </div>
             </div>
         </div>
-    )
+    );
 }

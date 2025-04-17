@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
+import { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -9,7 +9,7 @@ export default function ListingsPage() {
     const [listings, setListings] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [searchQuery, setSearchQuery] = useState("");
+    const [searchQuery, setSearchQuery] = useState('');
     const [filteredListings, setFilteredListings] = useState([]);
 
     const navigate = useNavigate();
@@ -17,20 +17,23 @@ export default function ListingsPage() {
 
     useEffect(() => {
         if (location.state?.showToast) {
-            toast.success(location.state.toastMessage || "Success!");
+            toast.success(location.state.toastMessage || 'Success!');
             window.history.replaceState({}, document.title);
         }
-    }, [location.state])
+    }, [location.state]);
 
     useEffect(() => {
         const fetchListings = async () => {
             try {
-                const response = await fetch(`${API_BASE_URL}/api/listings/details`, {
-                    credentials: 'include'
-                });
+                const response = await fetch(
+                    `${API_BASE_URL}/api/listings/details`,
+                    {
+                        credentials: 'include',
+                    }
+                );
 
                 if (!response.ok) {
-                    throw new Error("Failed to fetch listings.");
+                    throw new Error('Failed to fetch listings.');
                 }
 
                 const data = await response.json();
@@ -41,17 +44,19 @@ export default function ListingsPage() {
             } finally {
                 setLoading(false);
             }
-        }
+        };
 
         fetchListings();
     }, []);
 
     useEffect(() => {
-        if (searchQuery === "") {
+        if (searchQuery === '') {
             setFilteredListings(listings);
         } else {
             const filtered = listings.filter((listing) => {
-                return listing.title.toLowerCase().includes(searchQuery.toLowerCase());
+                return listing.title
+                    .toLowerCase()
+                    .includes(searchQuery.toLowerCase());
             });
             setFilteredListings(filtered);
         }
@@ -62,18 +67,18 @@ export default function ListingsPage() {
             <div className="flex items-center justify-center">
                 <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 border-t-4 border-blue-500 rounded-full"></div>
             </div>
-        )
+        );
     }
 
     if (error) {
-        return <div className="text-red-500">{error}</div>
+        return <div className="text-red-500">{error}</div>;
     }
 
     return (
         <div className="flex flex-col items-center py-6">
             <div className="w-full sm:w-1/2 flex justify-between items-center mb-6">
                 <h2 className="text-xl font-bold">Listings</h2>
-                <Button onClick={() => navigate("/listings/create")}>
+                <Button onClick={() => navigate('/listings/create')}>
                     + New Listing
                 </Button>
             </div>
@@ -91,7 +96,9 @@ export default function ListingsPage() {
                 <div className="space-y-6 w-full">
                     {filteredListings.length === 0 && (
                         <div className="w-full flex justify-center">
-                            <h1 className="text-lg font-semibold">No listings found.</h1>
+                            <h1 className="text-lg font-semibold">
+                                No listings found.
+                            </h1>
                         </div>
                     )}
                     {filteredListings.map((listing) => (
@@ -102,15 +109,22 @@ export default function ListingsPage() {
                         >
                             <div className="flex-shrink-0">
                                 <img
-                                    src={listing.imageUrl || 'https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg'}
+                                    src={
+                                        listing.imageUrl ||
+                                        'https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg'
+                                    }
                                     alt={listing.title}
                                     className="w-64 h-36 object-cover rounded-lg"
                                 />
                             </div>
 
                             <div className="ml-6 flex flex-col justify-between flex-grow">
-                                <h3 className="text-lg font-semibold mb-2">{listing.title}</h3>
-                                <p className="text-sm text-gray-500">{listing.condition}</p>
+                                <h3 className="text-lg font-semibold mb-2">
+                                    {listing.title}
+                                </h3>
+                                <p className="text-sm text-gray-500">
+                                    {listing.condition}
+                                </p>
                             </div>
 
                             <div className="ml-6 flex items-center">

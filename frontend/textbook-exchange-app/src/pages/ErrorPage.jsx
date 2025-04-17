@@ -1,10 +1,11 @@
-import { useLocation } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 
 export default function ErrorPage() {
     const location = useLocation();
     const { state } = location;
     const status = state?.status || 500;
-    const message = state?.message?.message || state?.message || "Something went wrong!";
+    const message =
+        state?.message?.message || state?.message || 'Something went wrong!';
 
     return (
         <div className="h-full flex flex-1 flex-col items-center justify-center px-4 text-center">

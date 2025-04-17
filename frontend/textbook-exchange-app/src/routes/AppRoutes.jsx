@@ -1,14 +1,14 @@
-import { Routes, Route } from "react-router-dom"
-import HomePage from "@/pages/HomePage"
-import LoginPage from "@/pages/LoginPage"
-import RegisterPage from "@/pages/RegisterPage"
-import MainLayout from "@/MainLayout"
-import ListingsPage from "@/pages/ListingsPage"
-import ProtectedRoute from "@/components/ProtectedRoute"
-import ListingDetailsPage from "@/pages/ListingDetailsPage"
-import ErrorPage from "@/pages/ErrorPage"
-import ListingCreatePage from "@/pages/ListingCreatePage"
-import ProfilePage from "@/pages/ProfilePage"
+import { Routes, Route } from 'react-router-dom';
+import HomePage from '@/pages/HomePage';
+import LoginPage from '@/pages/LoginPage';
+import RegisterPage from '@/pages/RegisterPage';
+import MainLayout from '@/MainLayout';
+import ListingsPage from '@/pages/ListingsPage';
+import ProtectedRoute from '@/components/ProtectedRoute';
+import ListingDetailsPage from '@/pages/ListingDetailsPage';
+import ErrorPage from '@/pages/ErrorPage';
+import ListingCreatePage from '@/pages/ListingCreatePage';
+import ProfilePage from '@/pages/ProfilePage';
 
 export default function AppRoutes() {
     return (
@@ -21,8 +21,14 @@ export default function AppRoutes() {
 
                 <Route element={<ProtectedRoute />}>
                     <Route path="/listings" element={<ListingsPage />} />
-                    <Route path="/listings/create" element={<ListingCreatePage />} />
-                    <Route path="/listings/:listingId" element={<ListingDetailsPage />} />
+                    <Route
+                        path="/listings/create"
+                        element={<ListingCreatePage />}
+                    />
+                    <Route
+                        path="/listings/:listingId"
+                        element={<ListingDetailsPage />}
+                    />
 
                     <Route path="/profile" element={<ProfilePage />} />
                 </Route>

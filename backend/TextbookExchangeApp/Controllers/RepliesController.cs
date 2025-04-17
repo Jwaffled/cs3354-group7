@@ -17,11 +17,18 @@ namespace TextbookExchangeApp.Controllers
             _replyService = replyService;
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<IActionResult> CreateReply([FromBody] ReplyDto dto)
         {
-            await _replyService.CreateReplyAsync(dto);
-            return Ok(new { message = "Reply created successfully." });
+            try
+            {
+                await _replyService.CreateReplyAsync(dto);
+                return Ok(new { message = "Reply created successfully." });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { message = e.Message });
+            }
         }
 
         [HttpGet("{replyId}")]
