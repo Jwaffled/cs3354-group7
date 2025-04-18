@@ -55,6 +55,20 @@ public class AuthController : ControllerBase
     }
 
     [Authorize]
+    [HttpGet("profile-data")]
+    public async Task<IActionResult> GetProfileData(string profileId)
+    {
+        var user = await _loginService.GetProfileDataAsync(profileId);
+
+        if (user == null)
+        {
+            return NotFound(new { message = "User not found." });
+        }
+
+        return Ok(user);
+    }
+
+    [Authorize]
     [HttpGet("me")]
     public async Task<IActionResult> GetMe()
     {
@@ -62,7 +76,7 @@ public class AuthController : ControllerBase
 
         if (user == null)
         {
-            return Unauthorized(new { message = "User not found." });
+            return NotFound(new { message = "User not found." });
         }
 
         return Ok(new AccountInfoDto

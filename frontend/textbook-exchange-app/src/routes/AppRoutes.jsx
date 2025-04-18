@@ -8,6 +8,7 @@ import ProtectedRoute from '@/components/ProtectedRoute';
 import ListingDetailsPage from '@/pages/ListingDetailsPage';
 import ErrorPage from '@/pages/ErrorPage';
 import ListingCreatePage from '@/pages/ListingCreatePage';
+import MyProfilePage from '@/pages/MyProfilePage';
 import ProfilePage from '@/pages/ProfilePage';
 
 export default function AppRoutes() {
@@ -30,7 +31,11 @@ export default function AppRoutes() {
                         element={<ListingDetailsPage />}
                     />
 
-                    <Route path="/profile" element={<ProfilePage />} />
+                    <Route path="/profile" element={<MyProfilePage />} />
+                    <Route
+                        path="/profile/:profileId"
+                        element={<ProfilePage />}
+                    />
                 </Route>
             </Route>
         </Routes>

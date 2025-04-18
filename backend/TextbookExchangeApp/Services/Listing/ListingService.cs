@@ -43,6 +43,7 @@ public class ListingService : IListingService
                 Condition = data.Condition.GetDisplayName(),
                 AuthorName = data.CreatedBy.FirstName + " " + data.CreatedBy.LastName,
                 CreatedAt = data.CreatedAt,
+                CreatedById = data.CreatedById,
                 Price = data.Price,
                 ImageUrl = data.ImageUrl,
             };

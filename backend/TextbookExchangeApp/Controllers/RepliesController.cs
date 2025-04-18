@@ -43,10 +43,10 @@ namespace TextbookExchangeApp.Controllers
             return Ok(data);
         }
 
-        [HttpGet("get-listing-replies")]
-        public async Task<IActionResult> GetListingReplies(int listingId)
+        [HttpGet("get-profile-replies")]
+        public async Task<IActionResult> GetListingReplies(string profileId)
         {
-            var data = await _replyService.GetAllRepliesAsync(listingId);
+            var data = await _replyService.GetAllRepliesAsync(profileId);
 
             return Ok(data);
         }

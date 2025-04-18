@@ -9,5 +9,6 @@ public class ApplicationUser : IdentityUser
 
     // Navigation Properties
     public List<Listing> Listings { get; set; }
-    public List<Reply> Replies { get; set; }
+    public List<Reply> RepliesCreated { get; set; }
+    public List<Reply> RepliesReceived { get; set; }
 }

@@ -31,11 +31,11 @@ public class ReplyService : IReplyService
         return data?.ConvertToDto();
     }
 
-    public async Task<List<ReplyDetailsDto>> GetAllRepliesAsync(int listingId)
+    public async Task<List<ReplyDetailsDto>> GetAllRepliesAsync(string profileId)
     {
         var data = await _dbContext.Replies
             .Include(x => x.CreatedBy)
-            .Where(x => x.ListingId == listingId).ToListAsync();
+            .Where(x => x.RecipientId == profileId).ToListAsync();
         
         return data.Select(x => new ReplyDetailsDto
             {

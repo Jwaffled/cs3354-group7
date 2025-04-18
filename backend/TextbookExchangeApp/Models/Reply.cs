@@ -11,13 +11,13 @@ public class Reply : IAuditableEntity
     public int Rating { get; set; }
     public string Message { get; set; }
     // Foreign Keys
-    public int ListingId { get; set; }
+    public string RecipientId { get; set; }
     public string CreatedById { get; set; }
     public DateTime CreatedAt { get; set; }
 
     // Navigation Properties
     public ApplicationUser CreatedBy { get; set; }
-    public Listing Listing { get; set; }
+    public ApplicationUser Recipient { get; set; }
 
     public ReplyDto ConvertToDto()
     {
@@ -26,7 +26,7 @@ public class Reply : IAuditableEntity
             Id = Id,
             Message = Message,
             Rating = Rating,
-            ListingId = ListingId,
+            RecipientId = RecipientId,
             CreatedById = CreatedById,
             CreatedAt = CreatedAt,
         };

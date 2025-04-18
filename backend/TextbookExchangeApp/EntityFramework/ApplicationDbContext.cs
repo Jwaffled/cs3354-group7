@@ -22,14 +22,14 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         base.OnModelCreating(builder);
         // Add other model configurations here
         builder.Entity<Reply>()
-            .HasOne(x => x.Listing)
-            .WithMany(x => x.Replies)
-            .HasForeignKey(x => x.ListingId)
+            .HasOne(x => x.Recipient)
+            .WithMany(x => x.RepliesReceived)
+            .HasForeignKey(x => x.RecipientId)
             .OnDelete(DeleteBehavior.Cascade);
         
         builder.Entity<Reply>()
             .HasOne(x => x.CreatedBy)
-            .WithMany(x => x.Replies)
+            .WithMany(x => x.RepliesCreated)
             .HasForeignKey(x => x.CreatedById)
             .OnDelete(DeleteBehavior.Cascade);
         

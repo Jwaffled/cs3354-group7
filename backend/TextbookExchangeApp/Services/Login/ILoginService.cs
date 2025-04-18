@@ -7,4 +7,5 @@ public interface ILoginService
 {
     Task<IdentityResult> CreateAccountAsync(CreateAccountDto dto);
     Task<bool> LoginUserAsync(AccountLoginDto dto);
+    Task<ProfileDataDto?> GetProfileDataAsync(string profileId);
 }
