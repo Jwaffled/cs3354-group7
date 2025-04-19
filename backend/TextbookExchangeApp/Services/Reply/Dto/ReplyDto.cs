@@ -8,15 +8,4 @@ public class ReplyDto
     public string? RecipientId { get; set; }
     public string? CreatedById { get; set; }
     public DateTime? CreatedAt { get; set; }
-
-    public Models.Reply ConvertToModel()
-    {
-        return new Models.Reply
-        {
-            Id = Id,
-            Message = Message,
-            Rating = Rating,
-            RecipientId = RecipientId,
-        };
-    }
 }

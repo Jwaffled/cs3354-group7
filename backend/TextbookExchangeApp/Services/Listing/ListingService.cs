@@ -25,12 +25,21 @@ public class ListingService : IListingService
     {
         var data = await _dbContext.Listings.FirstOrDefaultAsync(x => x.Id == id);
 
-        return data?.ConvertToDto();
+        return data == null ? null : new ListingDto
+        {
+            Id = data.Id,
+            Condition = data.Condition,
+            Description = data.Description,
+            ImageUrl = data.ImageUrl,
+            Price = data.Price,
+            Title = data.Title,
+        };
     }
 
     public async Task<ListingDetailsDto?> GetListingDetailsAsync(int id)
     {
         var data = await _dbContext.Listings
+            .AsNoTracking()
             .Include(x => x.CreatedBy)
             .FirstOrDefaultAsync(x => x.Id == id);
         return data == null
@@ -52,6 +61,7 @@ public class ListingService : IListingService
     public async Task<List<ListingDetailsDto>> GetAllListingDetailsAsync()
     {
         var data = await _dbContext.Listings
+            .AsNoTracking()
             .Include(x => x.CreatedBy)
             .Select(x => new ListingDetailsDto
             {
@@ -71,8 +81,16 @@ public class ListingService : IListingService
 
     public async Task<List<ListingDto>> GetAllListingsAsync()
     {
-        var data = await _dbContext.Listings.ToListAsync();
+        var data = await _dbContext.Listings.AsNoTracking().ToListAsync();
         
-        return data.Select(x => x.ConvertToDto()).ToList();
+        return data.Select(x => new ListingDto
+        {
+            Id = x.Id,
+            Condition = x.Condition,
+            Description = x.Description,
+            ImageUrl = x.ImageUrl,
+            Price = x.Price,
+            Title = x.Title,
+        }).ToList();
     }
 }

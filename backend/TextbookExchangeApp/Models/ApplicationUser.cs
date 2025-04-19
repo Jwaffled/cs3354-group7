@@ -11,4 +11,6 @@ public class ApplicationUser : IdentityUser
     public List<Listing> Listings { get; set; }
     public List<Reply> RepliesCreated { get; set; }
     public List<Reply> RepliesReceived { get; set; }
+    public List<ForumPost> ForumPosts { get; set; }
+    public List<ForumReply> ForumReplies { get; set; }
 }

@@ -10,24 +10,12 @@ public class Listing : IAuditableEntity
     public string Description { get; set; }
     public double Price { get; set; }
     public Enums.TextbookCondition Condition { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public string CreatedById { get; set; }
     public string ImageUrl { get; set; }
+    public DateTime CreatedAt { get; set; }
+    // Foreign Keys
+    public string CreatedById { get; set; }
 
     // Navigation Properties
     public ApplicationUser CreatedBy { get; set; }
     public List<Reply> Replies { get; set; }
-
-    public ListingDto ConvertToDto()
-    {
-        return new ListingDto
-        {
-            Id = Id,
-            Title = Title,
-            Description = Description,
-            Price = Price,
-            Condition = Condition,
-            ImageUrl = ImageUrl,
-        };
-    }
 }

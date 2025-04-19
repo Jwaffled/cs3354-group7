@@ -17,6 +17,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<Listing> Listings { get; set; }
     public DbSet<Reply> Replies { get; set; }
+    public DbSet<ForumPost> ForumPosts { get; set; }
+    public DbSet<ForumReply> ForumReplies { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -38,6 +40,22 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .WithMany(x => x.Listings)
             .HasForeignKey(x => x.CreatedById)
             .OnDelete(DeleteBehavior.Cascade);
+        
+        builder.Entity<ForumPost>()
+            .HasOne(x => x.CreatedBy)
+            .WithMany(x => x.ForumPosts)
+            .HasForeignKey(x => x.CreatedById)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<ForumReply>()
+            .HasOne(x => x.CreatedBy)
+            .WithMany(x => x.ForumReplies)
+            .HasForeignKey(x => x.CreatedById);
+
+        builder.Entity<ForumReply>()
+            .HasOne(x => x.ForumPost)
+            .WithMany(x => x.ForumReplies)
+            .HasForeignKey(x => x.ForumPostId);
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

@@ -16,6 +16,7 @@ public class ProfileService : IProfileService
     public async Task<ProfileDataDto?> GetProfileDataAsync(string userId)
     {
         var user = await _dbContext.Users
+            .AsNoTracking()
             .Include(x => x.RepliesReceived)
             .FirstOrDefaultAsync(u => u.Id == userId);
 

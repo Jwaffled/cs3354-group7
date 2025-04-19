@@ -35,12 +35,11 @@ public class ProfilesController : ControllerBase
 
     [Authorize]
     [HttpPost("{profileId}/replies")]
-    public async Task<IActionResult> CreateReply(string profileId, [FromBody] ReplyDto dto)
+    public async Task<IActionResult> CreateReply(string profileId, [FromBody] CreateReplyDto dto)
     {
         try
         {
-            dto.RecipientId = profileId;
-            await _replyService.CreateReplyAsync(dto);
+            await _replyService.CreateReplyAsync(profileId, dto);
             return Ok(new { message = "Reply created successfully." });
         }
         catch (Exception e)

@@ -13,14 +13,20 @@ public class ReplyService : IReplyService
         _dbContext = dbContext;
     }
     
-    public async Task CreateReplyAsync(ReplyDto dto)
+    public async Task CreateReplyAsync(string profileId, CreateReplyDto dto)
     {
         if (dto.Rating <= 0 || dto.Rating > 5)
         {
             throw new ArgumentException("Rating must be between 0 and 5.");
         }
-        var data = dto.ConvertToModel();
-        _dbContext.Replies.Add(data);
+        
+        _dbContext.Replies.Add(new Models.Reply
+        {
+            RecipientId = profileId,
+            Message = dto.Message,
+            Rating = dto.Rating,
+        });
+        
         await _dbContext.SaveChangesAsync();
     }
 
@@ -28,7 +34,15 @@ public class ReplyService : IReplyService
     {
         var data = await _dbContext.Replies.FirstOrDefaultAsync(x => x.Id == id);
 
-        return data?.ConvertToDto();
+        return data == null ? null : new ReplyDto
+        {
+            Id = data.Id,
+            CreatedAt = data.CreatedAt,
+            CreatedById = data.CreatedById,
+            Message = data.Message,
+            Rating = data.Rating,
+            RecipientId = data.RecipientId,
+        };
     }
 
     public async Task<List<ReplyDetailsDto>> GetAllRepliesAsync(string profileId)
@@ -51,6 +65,14 @@ public class ReplyService : IReplyService
     public async Task<List<ReplyDto>> GetAllRepliesAsync()
     {
         var data = await _dbContext.Replies.ToListAsync();
-        return data.Select(x => x.ConvertToDto()).ToList();
+        return data.Select(x => new ReplyDto
+        {
+            Id = x.Id,
+            CreatedAt = x.CreatedAt,
+            CreatedById = x.CreatedById,
+            Message = x.Message,
+            Rating = x.Rating,
+            RecipientId = x.RecipientId,
+        }).ToList();
     }
 }
