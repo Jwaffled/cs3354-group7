@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using TextbookExchangeApp.EntityFramework;
 using TextbookExchangeApp.Services.ForumReply.Dto;
 
@@ -22,5 +23,22 @@ public class ForumReplyService : IForumReplyService
         }); 
         
         await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<List<ForumReplyListItemDto>> GetForumPostRepliesAsync(int forumPostId)
+    {
+        var data = await _dbContext.ForumReplies
+            .AsNoTracking()
+            .Where(x => x.ForumPostId == forumPostId)
+            .Select(x => new ForumReplyListItemDto
+            {
+                Id = x.Id,
+                AuthorId = x.CreatedById,
+                AuthorName = x.CreatedBy.FirstName + " " + x.CreatedBy.LastName,
+                CreatedAt = x.CreatedAt,
+                Message = x.Message,
+            }).ToListAsync();
+
+        return data;
     }
 }

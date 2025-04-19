@@ -48,18 +48,18 @@ public class ReplyService : IReplyService
     public async Task<List<ReplyDetailsDto>> GetAllRepliesAsync(string profileId)
     {
         var data = await _dbContext.Replies
-            .Include(x => x.CreatedBy)
-            .Where(x => x.RecipientId == profileId).ToListAsync();
-        
-        return data.Select(x => new ReplyDetailsDto
+            .AsNoTracking()
+            .Where(x => x.RecipientId == profileId)
+            .Select(x => new ReplyDetailsDto
             {
                 Id = x.Id,
                 Message = x.Message,
                 Rating = x.Rating,
                 AuthorName = x.CreatedBy.FirstName + " " + x.CreatedBy.LastName,
                 CreatedAt = x.CreatedAt,
-            })
-            .ToList();
+            }).ToListAsync();
+
+        return data;
     }
 
     public async Task<List<ReplyDto>> GetAllRepliesAsync()

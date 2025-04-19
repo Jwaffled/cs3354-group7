@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using TextbookExchangeApp.Services.ForumPost;
 using TextbookExchangeApp.Services.ForumPost.Dto;
 using TextbookExchangeApp.Services.ForumReply;
+using TextbookExchangeApp.Services.ForumReply.Dto;
 
 namespace TextbookExchangeApp.Controllers;
 
@@ -46,6 +47,25 @@ public class ForumsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateForumPost([FromBody] CreateForumPostDto dto)
     {
-        
+        await _forumPostService.CreateForumPostAsync(dto);
+
+        return Ok(new { message = "Forum post created successfully." });
+    }
+
+    [Authorize]
+    [HttpGet("{forumPostId:int}/replies")]
+    public async Task<IActionResult> GetForumPostReplies(int forumPostId)
+    {
+        var data = await _forumReplyService.GetForumPostRepliesAsync(forumPostId);
+
+        return Ok(data);
+    }
+
+    [Authorize]
+    [HttpPost("{forumPostId:int}/replies")]
+    public async Task<IActionResult> CreateForumPostReply(int forumPostId, [FromBody] CreateForumReplyDto dto)
+    {
+        await _forumReplyService.CreateForumReplyAsync(forumPostId, dto);
+        return Ok(new { message = "Forum reply created successfully." });
     }
 }
