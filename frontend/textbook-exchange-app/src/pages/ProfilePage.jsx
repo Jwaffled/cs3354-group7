@@ -19,7 +19,7 @@ export default function ProfilePage() {
         const fetchReplies = async () => {
             try {
                 const res = await fetch(
-                    `${API_BASE_URL}/api/replies/get-profile-replies?profileId=${profileId}`,
+                    `${API_BASE_URL}/api/profiles/${profileId}/replies`,
                     {
                         credentials: 'include',
                     }
@@ -46,7 +46,7 @@ export default function ProfilePage() {
         const fetchProfileData = async () => {
             try {
                 const res = await fetch(
-                    `${API_BASE_URL}/api/auth/profile-data?profileId=${profileId}`,
+                    `${API_BASE_URL}/api/profiles/${profileId}`,
                     {
                         credentials: 'include',
                     }
@@ -77,18 +77,20 @@ export default function ProfilePage() {
 
     const createReply = async (e) => {
         e.preventDefault();
-        const res = await fetch(`${API_BASE_URL}/api/replies/create`, {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                message: replyText,
-                rating: rating,
-                recipientId: profileId,
-            }),
-        });
+        const res = await fetch(
+            `${API_BASE_URL}/api/profiles/${profileId}/replies`,
+            {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    message: replyText,
+                    rating: rating,
+                }),
+            }
+        );
 
         if (res.ok) {
             setReplyText('');

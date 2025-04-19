@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace TextbookExchangeApp.Services.Login.Dto;
+namespace TextbookExchangeApp.Services.Auth.Dto;
 
 public class CreateAccountDto
 {

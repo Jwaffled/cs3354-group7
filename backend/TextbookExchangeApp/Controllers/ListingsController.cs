@@ -18,7 +18,7 @@ namespace TextbookExchangeApp.Controllers
         }
 
         [Authorize]
-        [HttpPost("create")]
+        [HttpPost]
         public async Task<IActionResult> CreateListing([FromBody] ListingDto dto)
         {
             await _listingService.CreateListingAsync(dto);
@@ -52,8 +52,8 @@ namespace TextbookExchangeApp.Controllers
         }
 
         [Authorize]
-        [HttpGet("details")]
-        public async Task<IActionResult> GetAllListingDetails()
+        [HttpGet]
+        public async Task<IActionResult> GetAllListings()
         {
             var data = await _listingService.GetAllListingDetailsAsync();
 
@@ -72,16 +72,6 @@ namespace TextbookExchangeApp.Controllers
                     Label = c.GetDisplayName()
                 })
                 .ToList();
-
-            return Ok(data);
-        }
-
-        //get all listings
-        [Authorize]
-        [HttpGet]
-        public async Task<IActionResult> GetAllListings()
-        {
-            var data = await _listingService.GetAllListingsAsync();
 
             return Ok(data);
         }

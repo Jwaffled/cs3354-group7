@@ -1,4 +1,4 @@
-namespace TextbookExchangeApp.Services.Login.Dto;
+namespace TextbookExchangeApp.Services.Profile.Dto;
 
 public class ProfileDataDto
 {

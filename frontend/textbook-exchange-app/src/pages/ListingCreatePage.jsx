@@ -60,7 +60,7 @@ export default function ListingCreatePage() {
         e.preventDefault();
 
         try {
-            await fetch(`${API_BASE_URL}/api/listings/create`, {
+            await fetch(`${API_BASE_URL}/api/listings`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {

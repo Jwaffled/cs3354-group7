@@ -2,8 +2,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TextbookExchangeApp.Models;
-using TextbookExchangeApp.Services.Login;
-using TextbookExchangeApp.Services.Login.Dto;
+using TextbookExchangeApp.Services.Auth;
+using TextbookExchangeApp.Services.Auth.Dto;
 
 namespace TextbookExchangeApp.Controllers;
 
@@ -13,19 +13,19 @@ public class AuthController : ControllerBase
 {
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly ILoginService _loginService;
+    private readonly IAuthService _authService;
 
-    public AuthController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ILoginService loginService)
+    public AuthController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IAuthService authService)
     {
         _signInManager = signInManager;
         _userManager = userManager;
-        _loginService = loginService;
+        _authService = authService;
     }
 
     [HttpPost("create-account")]
     public async Task<IActionResult> CreateAccount([FromBody] CreateAccountDto dto)
     {
-        var result = await _loginService.CreateAccountAsync(dto);
+        var result = await _authService.CreateAccountAsync(dto);
         if (result.Succeeded)
         {
             return Ok(new { message = "Account Created Successfully" });
@@ -37,7 +37,7 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] AccountLoginDto dto)
     {
-        var result = await _loginService.LoginUserAsync(dto);
+        var result = await _authService.LoginUserAsync(dto);
         if (result)
         {
             return Ok(new { message = "Logged in successfully." });
@@ -52,20 +52,6 @@ public class AuthController : ControllerBase
     {
         await _signInManager.SignOutAsync();
         return Ok(new { message = "Signed out successfully." });
-    }
-
-    [Authorize]
-    [HttpGet("profile-data")]
-    public async Task<IActionResult> GetProfileData(string profileId)
-    {
-        var user = await _loginService.GetProfileDataAsync(profileId);
-
-        if (user == null)
-        {
-            return NotFound(new { message = "User not found." });
-        }
-
-        return Ok(user);
     }
 
     [Authorize]

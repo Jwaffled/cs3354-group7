@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 using TextbookExchangeApp.EntityFramework;
 using TextbookExchangeApp.Models;
+using TextbookExchangeApp.Services.Auth;
 using TextbookExchangeApp.Services.Listing;
-using TextbookExchangeApp.Services.Login;
+using TextbookExchangeApp.Services.Profile;
 using TextbookExchangeApp.Services.Reply;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -42,9 +42,10 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
     
-builder.Services.AddScoped<ILoginService, LoginService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IListingService, ListingService>();
 builder.Services.AddScoped<IReplyService, ReplyService>();
+builder.Services.AddScoped<IProfileService, ProfileService>();
     
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 builder.Services.AddControllers();
@@ -69,6 +70,9 @@ app.MapControllers();
 
 app.Run();
 
-public partial class Program
+namespace TextbookExchangeApp
 {
+    public partial class Program
+    {
+    }
 }

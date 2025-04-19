@@ -1,4 +1,4 @@
-namespace TextbookExchangeApp.Services.Login.Dto;
+namespace TextbookExchangeApp.Services.Auth.Dto;
 
 public class AccountLoginDto
 {

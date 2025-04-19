@@ -25,12 +25,9 @@ export default function ListingsPage() {
     useEffect(() => {
         const fetchListings = async () => {
             try {
-                const response = await fetch(
-                    `${API_BASE_URL}/api/listings/details`,
-                    {
-                        credentials: 'include',
-                    }
-                );
+                const response = await fetch(`${API_BASE_URL}/api/listings`, {
+                    credentials: 'include',
+                });
 
                 if (!response.ok) {
                     throw new Error('Failed to fetch listings.');
