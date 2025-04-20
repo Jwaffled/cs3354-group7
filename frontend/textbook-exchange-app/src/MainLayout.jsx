@@ -74,7 +74,7 @@ const MainLayout = () => {
                                     View Forums
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
-                                    onClick={() => navigate('/forums/new')}
+                                    onClick={() => navigate('/forums/create')}
                                 >
                                     New Post
                                 </DropdownMenuItem>

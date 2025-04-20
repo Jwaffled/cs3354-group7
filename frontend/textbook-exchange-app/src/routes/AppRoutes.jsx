@@ -10,6 +10,9 @@ import ErrorPage from '@/pages/ErrorPage';
 import ListingCreatePage from '@/pages/ListingCreatePage';
 import MyProfilePage from '@/pages/MyProfilePage';
 import ProfilePage from '@/pages/ProfilePage';
+import ForumsPage from '@/pages/ForumsPage';
+import ForumCreatePage from '@/pages/ForumCreatePage';
+import ForumDetailsPage from '../pages/ForumDetailsPage';
 
 export default function AppRoutes() {
     return (
@@ -36,6 +39,10 @@ export default function AppRoutes() {
                         path="/profile/:profileId"
                         element={<ProfilePage />}
                     />
+
+                    <Route path="/forums" element={<ForumsPage />} />
+                    <Route path="/forums/create" element={<ForumCreatePage />} />
+                    <Route path="/forums/:forumId" element={<ForumDetailsPage />} />
                 </Route>
             </Route>
         </Routes>

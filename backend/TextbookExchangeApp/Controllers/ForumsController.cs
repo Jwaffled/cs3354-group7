@@ -47,9 +47,9 @@ public class ForumsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateForumPost([FromBody] CreateForumPostDto dto)
     {
-        await _forumPostService.CreateForumPostAsync(dto);
-
-        return Ok(new { message = "Forum post created successfully." });
+        var forumPostId = await _forumPostService.CreateForumPostAsync(dto);
+        var forumPost = await _forumPostService.GetForumPostByIdAsync(forumPostId);
+        return Ok(forumPost);
     }
 
     [Authorize]
@@ -65,7 +65,8 @@ public class ForumsController : ControllerBase
     [HttpPost("{forumPostId:int}/replies")]
     public async Task<IActionResult> CreateForumPostReply(int forumPostId, [FromBody] CreateForumReplyDto dto)
     {
-        await _forumReplyService.CreateForumReplyAsync(forumPostId, dto);
-        return Ok(new { message = "Forum reply created successfully." });
+        var replyId = await _forumReplyService.CreateForumReplyAsync(forumPostId, dto);
+        var reply = await _forumReplyService.GetForumReplyByIdAsync(replyId);
+        return Ok(reply);
     }
 }

@@ -39,8 +39,9 @@ public class ProfilesController : ControllerBase
     {
         try
         {
-            await _replyService.CreateReplyAsync(profileId, dto);
-            return Ok(new { message = "Reply created successfully." });
+            var replyId = await _replyService.CreateReplyAsync(profileId, dto);
+            var reply = await _replyService.GetReplyByIdAsync(replyId);
+            return Ok(reply);
         }
         catch (Exception e)
         {

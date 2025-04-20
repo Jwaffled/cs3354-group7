@@ -1,6 +1,6 @@
 ﻿namespace TextbookExchangeApp.Services.Listing.Dto;
 
-public class ListingDetailsDto
+public class ListingListItemDto
 {
     public int Id { get; set; }
     public string Title { get; set; }

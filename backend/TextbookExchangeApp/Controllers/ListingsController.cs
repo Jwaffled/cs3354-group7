@@ -19,10 +19,11 @@ namespace TextbookExchangeApp.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> CreateListing([FromBody] ListingDto dto)
+        public async Task<IActionResult> CreateListing([FromBody] CreateListingDto dto)
         {
-            await _listingService.CreateListingAsync(dto);
-            return Ok(new { message = "Listing created successfully." });
+            var listingId = await _listingService.CreateListingAsync(dto);
+            var listing = await _listingService.GetListingByIdAsync(listingId);
+            return Ok(listing);
         }
 
         [Authorize]
@@ -55,7 +56,7 @@ namespace TextbookExchangeApp.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllListings()
         {
-            var data = await _listingService.GetAllListingDetailsAsync();
+            var data = await _listingService.GetAllListingsAsync();
 
             return Ok(data);
         }

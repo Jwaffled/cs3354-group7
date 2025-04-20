@@ -14,15 +14,36 @@ public class ForumReplyService : IForumReplyService
     }
 
 
-    public async Task CreateForumReplyAsync(int forumPostId, CreateForumReplyDto dto)
+    public async Task<int> CreateForumReplyAsync(int forumPostId, CreateForumReplyDto dto)
     {
-        _dbContext.ForumReplies.Add(new Models.ForumReply
+        var reply = new Models.ForumReply
         {
             Message = dto.Message,
             ForumPostId = forumPostId,
-        }); 
+        };
+        
+        _dbContext.ForumReplies.Add(reply); 
         
         await _dbContext.SaveChangesAsync();
+
+        return reply.Id;
+    }
+
+    public async Task<ForumReplyListItemDto?> GetForumReplyByIdAsync(int replyId)
+    {
+        var data = await _dbContext.ForumReplies
+            .AsNoTracking()
+            .Include(x => x.CreatedBy)
+            .FirstOrDefaultAsync(x => x.Id == replyId);
+
+        return data == null ? null : new ForumReplyListItemDto
+        {
+            Id = data.Id,
+            AuthorId = data.CreatedById,
+            AuthorName = data.CreatedBy.FirstName + " " + data.CreatedBy.LastName,
+            CreatedAt = data.CreatedAt,
+            Message = data.Message,
+        };
     }
 
     public async Task<List<ForumReplyListItemDto>> GetForumPostRepliesAsync(int forumPostId)

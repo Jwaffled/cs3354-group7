@@ -13,15 +13,19 @@ public class ForumPostService : IForumPostService
         _dbContext = dbContext;
     }
 
-    public async Task CreateForumPostAsync(CreateForumPostDto dto)
+    public async Task<int> CreateForumPostAsync(CreateForumPostDto dto)
     {
-        _dbContext.ForumPosts.Add(new Models.ForumPost
+        var post = new Models.ForumPost
         {
             Title = dto.Title,
             Description = dto.Description,
-        });
+        };
+        
+        _dbContext.ForumPosts.Add(post);
         
         await _dbContext.SaveChangesAsync();
+        
+        return post.Id;
     }
 
     public async Task<List<ForumPostListItemDto>> GetAllForumPostsAsync()
@@ -33,7 +37,7 @@ public class ForumPostService : IForumPostService
                 Id = x.Id,
                 AuthorName = x.CreatedBy.FirstName + " " + x.CreatedBy.LastName,
                 CreatedAt = x.CreatedAt,
-                Preview = x.Description.Length > 100 ? x.Description.Substring(0, 100) : x.Description,
+                Preview = x.Description.Length > 100 ? x.Description.Substring(0, 100) + "..." : x.Description,
                 ReplyCount = x.ForumReplies.Count,
                 Title = x.Title
             })

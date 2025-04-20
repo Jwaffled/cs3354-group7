@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using TextbookExchangeApp.EntityFramework;
 using TextbookExchangeApp.Models;
 using TextbookExchangeApp.Services.Auth;
+using TextbookExchangeApp.Services.ForumPost;
+using TextbookExchangeApp.Services.ForumReply;
 using TextbookExchangeApp.Services.Listing;
 using TextbookExchangeApp.Services.Profile;
 using TextbookExchangeApp.Services.Reply;
@@ -46,6 +48,8 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IListingService, ListingService>();
 builder.Services.AddScoped<IReplyService, ReplyService>();
 builder.Services.AddScoped<IProfileService, ProfileService>();
+builder.Services.AddScoped<IForumPostService, ForumPostService>();
+builder.Services.AddScoped<IForumReplyService, ForumReplyService>();
     
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 builder.Services.AddControllers();

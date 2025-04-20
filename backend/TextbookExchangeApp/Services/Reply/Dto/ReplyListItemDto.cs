@@ -1,6 +1,6 @@
 namespace TextbookExchangeApp.Services.Reply.Dto;
 
-public class ReplyDetailsDto
+public class ReplyListItemDto
 {
     public int Id { get; set; }
     public string Message { get; set; }
