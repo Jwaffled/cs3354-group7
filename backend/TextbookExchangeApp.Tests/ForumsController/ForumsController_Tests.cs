@@ -40,6 +40,18 @@ namespace TextbookExchangeApp.Tests.ForumController
             return client;
         }
 
+        private async Task<int> CreateForumPostAsync(HttpClient client)
+        {
+            var response = await client.PostAsJsonAsync("/api/forums", new
+            {
+                Title = "Reply Test Thread",
+                Description = "For reply testing"
+            });
+
+            var json = await response.Content.ReadFromJsonAsync<JsonElement>();
+            return json.GetProperty("id").GetInt32();
+        }
+
         [Fact]
         public async Task CreateForumPost_Valid_ShouldReturnOk()
         {
@@ -110,6 +122,44 @@ namespace TextbookExchangeApp.Tests.ForumController
             var response = await client.PostAsJsonAsync("/api/forums", dto);
 
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task CreateReply_Valid_ShouldReturnOk()
+        {
+            var client = CreateAuthenticatedClient($"replyer{Guid.NewGuid()}@example.com", "StrongPass123$");
+            var postId = await CreateForumPostAsync(client);
+
+            var reply = new { Message = "This is a reply." };
+            var response = await client.PostAsJsonAsync($"/api/forums/{postId}/replies", reply);
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            var json = await response.Content.ReadFromJsonAsync<JsonElement>();
+            Assert.Equal(reply.Message, json.GetProperty("message").GetString());
+        }
+
+        [Fact]
+        public async Task CreateReply_Unauthorized_ShouldReturnUnauthorized()
+        {
+            var unauthenticatedClient = _factory.CreateClient();
+
+            var response = await unauthenticatedClient.PostAsJsonAsync("/api/forums/1/replies", new
+            {
+                Message = "Unauthenticated post"
+            });
+
+            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task CreateReply_MissingMessage_ShouldReturnBadRequest()
+        {
+            var client = CreateAuthenticatedClient($"missingmsg{Guid.NewGuid()}@example.com", "StrongPass123$");
+            var postId = await CreateForumPostAsync(client);
+
+            var response = await client.PostAsJsonAsync($"/api/forums/{postId}/replies", new { });
+
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
     }
 }
