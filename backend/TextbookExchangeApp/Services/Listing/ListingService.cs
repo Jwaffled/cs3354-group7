@@ -20,7 +20,7 @@ public class ListingService : IListingService
         {
             Title = dto.Title,
             Description = dto.Description,
-            Price = dto.Price,
+            Price = dto.Price.Value,
             Condition = dto.Condition,
             ImageUrl = dto.ImageUrl
         };

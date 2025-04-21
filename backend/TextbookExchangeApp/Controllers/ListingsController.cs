@@ -21,10 +21,17 @@ namespace TextbookExchangeApp.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateListing([FromBody] CreateListingDto dto)
         {
+            if (!Enum.IsDefined(typeof(TextbookCondition), dto.Condition))
+            {
+                ModelState.AddModelError(nameof(dto.Condition), "Invalid textbook condition.");
+                return BadRequest(ModelState);
+            }
+
             var listingId = await _listingService.CreateListingAsync(dto);
             var listing = await _listingService.GetListingByIdAsync(listingId);
             return Ok(listing);
         }
+
 
         [Authorize]
         [HttpGet("{listingId}")]
