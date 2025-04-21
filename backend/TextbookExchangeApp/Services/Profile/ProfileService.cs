@@ -26,7 +26,7 @@ public class ProfileService : IProfileService
                 Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                AverageRating = user.RepliesReceived.Average(x => x.Rating)
+                AverageRating = user.RepliesReceived.Count == 0 ? user.RepliesReceived.Average(x => x.Rating) : 0
             }
             : null;
     }
