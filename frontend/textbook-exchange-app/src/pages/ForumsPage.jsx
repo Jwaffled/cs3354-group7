@@ -58,7 +58,7 @@ export default function ForumsPage() {
     }
 
     return (
-        <div className="max-w-4xl mx-auto px-4 py-8 space-y-4">
+        <div className="sm:w-1/2 max-w-4xl mx-auto px-4 py-8 space-y-4">
             <h1 className="text-2xl font-semibold mb-4">Forum Posts</h1>
 
             {posts.length === 0 && (
@@ -67,8 +67,8 @@ export default function ForumsPage() {
 
             {posts.map((post) => (
                 <Link to={`/forums/${post.id}`} key={post.id}>
-                    <Card className="hover:shadow-md transition-shadow duration-200">
-                        <CardContent className="p-4 space-y-2">
+                    <Card className="hover:shadow-md transition-shadow duration-200 my-4">
+                        <CardContent className="px-4 space-y-2">
                             <div className="flex justify-between items-center">
                                 <h2 className="text-lg font-semibold">{post.title}</h2>
                                 <span className="text-sm text-gray-500">

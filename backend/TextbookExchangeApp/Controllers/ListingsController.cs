@@ -26,6 +26,7 @@ namespace TextbookExchangeApp.Controllers
             return Ok(listing);
         }
 
+
         [Authorize]
         [HttpGet("{listingId}")]
         public async Task<IActionResult> GetListingById(int listingId)
