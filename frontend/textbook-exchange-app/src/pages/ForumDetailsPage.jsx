@@ -83,7 +83,7 @@ export default function ForumDetailsPage() {
     }
 
     return (
-        <div className="px-4 py-8 max-w-5xl mx-auto space-y-8">
+        <div className="sm:w-1/2 px-4 py-8 max-w-5xl mx-auto space-y-8">
             <div className="space-y-2">
                 <h1 className="text-3xl font-bold">{forumPost.title}</h1>
                 <p className="text-gray-500">

@@ -11,6 +11,6 @@ public class CreateListingDto
     [Range(0, double.MaxValue, ErrorMessage = "Price must be non-negative.")]
     public double? Price { get; set; }
     [Required]
-    public Enums.TextbookCondition Condition { get; set; }
+    public Enums.TextbookCondition? Condition { get; set; }
     public string ImageUrl { get; set; }
 }

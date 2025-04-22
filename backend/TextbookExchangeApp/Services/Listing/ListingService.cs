@@ -21,7 +21,7 @@ public class ListingService : IListingService
             Title = dto.Title,
             Description = dto.Description,
             Price = dto.Price.Value,
-            Condition = dto.Condition,
+            Condition = dto.Condition.Value,
             ImageUrl = dto.ImageUrl
         };
         

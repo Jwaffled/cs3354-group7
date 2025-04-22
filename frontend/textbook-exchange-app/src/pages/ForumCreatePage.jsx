@@ -54,7 +54,7 @@ export default function ForumCreatePage() {
 
 
     return (
-        <div className="max-w-2xl mx-auto py-10 px-4">
+        <div className="sm:w-1/2 max-w-2xl mx-auto py-10 px-4">
             <h1 className="text-3xl font-bold mb-6">Create a New Forum Post</h1>
 
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -72,7 +72,7 @@ export default function ForumCreatePage() {
                 </div>
 
                 <div>
-                    <Label htmlFor="description" className="block text-sm font-medium mb-1">
+                    <Label htmlFor="description" className="block text-sm font-medium mb-2">
                         Description
                     </Label>
                     <Textarea
