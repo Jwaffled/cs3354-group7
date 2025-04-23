@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\backend",
+    "\\backend\\TextbookExchangeApp",
+    "\\backend\\TextbookExchangeApp.Tests",
+    "\\backend\\TextbookExchangeApp.Tests\\ProfilesController",
+    "\\backend\\TextbookExchangeApp\\Controllers",
+    "\\backend\\TextbookExchangeApp\\Services",
+    "\\backend\\TextbookExchangeApp\\Services\\Reply"
+  ],
+  "SelectedNode": "\\backend\\TextbookExchangeApp\\appsettings.json",
+  "PreviewInSolutionExplorer": false
+}
