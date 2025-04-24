@@ -67,17 +67,20 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         builder.Entity<ChannelUser>()
             .HasOne(x => x.Channel)
             .WithMany(x => x.ChannelUsers)
-            .HasForeignKey(x => x.ChannelId);
+            .HasForeignKey(x => x.ChannelId)
+            .OnDelete(DeleteBehavior.Cascade);
         
         builder.Entity<ChannelUser>()
             .HasOne(x => x.User)
             .WithMany()
-            .HasForeignKey(x => x.UserId);
+            .HasForeignKey(x => x.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
         
         builder.Entity<ChannelMessage>()
             .HasOne(x => x.Channel)
             .WithMany(x => x.ChannelMessages)
-            .HasForeignKey(x => x.ChannelId);
+            .HasForeignKey(x => x.ChannelId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
