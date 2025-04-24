@@ -173,6 +173,14 @@ namespace TextbookExchangeApp.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
 
@@ -218,6 +226,132 @@ namespace TextbookExchangeApp.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("TextbookExchangeApp.Models.Channel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Channels");
+                });
+
+            modelBuilder.Entity("TextbookExchangeApp.Models.ChannelMessage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ChannelId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedById")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChannelId");
+
+                    b.HasIndex("CreatedById");
+
+                    b.ToTable("ChannelMessages");
+                });
+
+            modelBuilder.Entity("TextbookExchangeApp.Models.ChannelUser", b =>
+                {
+                    b.Property<int>("ChannelId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("JoinedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("ChannelId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ChannelUsers");
+                });
+
+            modelBuilder.Entity("TextbookExchangeApp.Models.ForumPost", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedById")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.ToTable("ForumPosts");
+                });
+
+            modelBuilder.Entity("TextbookExchangeApp.Models.ForumReply", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedById")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("ForumPostId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("ForumPostId");
+
+                    b.ToTable("ForumReplies");
+                });
+
             modelBuilder.Entity("TextbookExchangeApp.Models.Listing", b =>
                 {
                     b.Property<int>("Id")
@@ -226,14 +360,21 @@ namespace TextbookExchangeApp.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AuthorId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<int>("Condition")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedById")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -246,7 +387,7 @@ namespace TextbookExchangeApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId");
+                    b.HasIndex("CreatedById");
 
                     b.ToTable("Listings");
                 });
@@ -259,22 +400,34 @@ namespace TextbookExchangeApp.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AuthorId")
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedById")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("ListingId")
+                    b.Property<int?>("ListingId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Message")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("Rating")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("RecipientId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId");
+                    b.HasIndex("CreatedById");
 
                     b.HasIndex("ListingId");
+
+                    b.HasIndex("RecipientId");
 
                     b.ToTable("Replies");
                 });
@@ -330,41 +483,131 @@ namespace TextbookExchangeApp.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TextbookExchangeApp.Models.Listing", b =>
+            modelBuilder.Entity("TextbookExchangeApp.Models.ChannelMessage", b =>
                 {
-                    b.HasOne("TextbookExchangeApp.Models.ApplicationUser", "Author")
-                        .WithMany("Listings")
-                        .HasForeignKey("AuthorId")
+                    b.HasOne("TextbookExchangeApp.Models.Channel", "Channel")
+                        .WithMany("ChannelMessages")
+                        .HasForeignKey("ChannelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Author");
+                    b.HasOne("TextbookExchangeApp.Models.ApplicationUser", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Channel");
+
+                    b.Navigation("CreatedBy");
+                });
+
+            modelBuilder.Entity("TextbookExchangeApp.Models.ChannelUser", b =>
+                {
+                    b.HasOne("TextbookExchangeApp.Models.Channel", "Channel")
+                        .WithMany("ChannelUsers")
+                        .HasForeignKey("ChannelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TextbookExchangeApp.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Channel");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("TextbookExchangeApp.Models.ForumPost", b =>
+                {
+                    b.HasOne("TextbookExchangeApp.Models.ApplicationUser", "CreatedBy")
+                        .WithMany("ForumPosts")
+                        .HasForeignKey("CreatedById")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CreatedBy");
+                });
+
+            modelBuilder.Entity("TextbookExchangeApp.Models.ForumReply", b =>
+                {
+                    b.HasOne("TextbookExchangeApp.Models.ApplicationUser", "CreatedBy")
+                        .WithMany("ForumReplies")
+                        .HasForeignKey("CreatedById")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TextbookExchangeApp.Models.ForumPost", "ForumPost")
+                        .WithMany("ForumReplies")
+                        .HasForeignKey("ForumPostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("ForumPost");
+                });
+
+            modelBuilder.Entity("TextbookExchangeApp.Models.Listing", b =>
+                {
+                    b.HasOne("TextbookExchangeApp.Models.ApplicationUser", "CreatedBy")
+                        .WithMany("Listings")
+                        .HasForeignKey("CreatedById")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CreatedBy");
                 });
 
             modelBuilder.Entity("TextbookExchangeApp.Models.Reply", b =>
                 {
-                    b.HasOne("TextbookExchangeApp.Models.ApplicationUser", "Author")
-                        .WithMany("Replies")
-                        .HasForeignKey("AuthorId")
+                    b.HasOne("TextbookExchangeApp.Models.ApplicationUser", "CreatedBy")
+                        .WithMany("RepliesCreated")
+                        .HasForeignKey("CreatedById")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TextbookExchangeApp.Models.Listing", "Listing")
+                    b.HasOne("TextbookExchangeApp.Models.Listing", null)
                         .WithMany("Replies")
-                        .HasForeignKey("ListingId")
+                        .HasForeignKey("ListingId");
+
+                    b.HasOne("TextbookExchangeApp.Models.ApplicationUser", "Recipient")
+                        .WithMany("RepliesReceived")
+                        .HasForeignKey("RecipientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Author");
+                    b.Navigation("CreatedBy");
 
-                    b.Navigation("Listing");
+                    b.Navigation("Recipient");
                 });
 
             modelBuilder.Entity("TextbookExchangeApp.Models.ApplicationUser", b =>
                 {
+                    b.Navigation("ForumPosts");
+
+                    b.Navigation("ForumReplies");
+
                     b.Navigation("Listings");
 
-                    b.Navigation("Replies");
+                    b.Navigation("RepliesCreated");
+
+                    b.Navigation("RepliesReceived");
+                });
+
+            modelBuilder.Entity("TextbookExchangeApp.Models.Channel", b =>
+                {
+                    b.Navigation("ChannelMessages");
+
+                    b.Navigation("ChannelUsers");
+                });
+
+            modelBuilder.Entity("TextbookExchangeApp.Models.ForumPost", b =>
+                {
+                    b.Navigation("ForumReplies");
                 });
 
             modelBuilder.Entity("TextbookExchangeApp.Models.Listing", b =>

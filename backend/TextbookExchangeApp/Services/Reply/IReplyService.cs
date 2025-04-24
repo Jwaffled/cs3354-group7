@@ -4,8 +4,7 @@ namespace TextbookExchangeApp.Services.Reply;
 
 public interface IReplyService
 {
-    Task CreateReplyAsync(ReplyDto dto);
-    Task<ReplyDto?> GetReplyByIdAsync(int id);
-    Task<List<ReplyDto>> GetAllRepliesAsync(int listingId);
-    Task<List<ReplyDto>> GetAllRepliesAsync();
+    Task<int> CreateReplyAsync(string profileId, CreateReplyDto dto);
+    Task<ReplyListItemDto?> GetReplyByIdAsync(int id);
+    Task<List<ReplyListItemDto>> GetAllRepliesAsync(string profileId);
 }

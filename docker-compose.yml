@@ -1,0 +1,18 @@
+services:
+  backend:
+    build: ./backend
+    container_name: backend
+    environment:
+      - ASPNETCORE_URLS=http://+:80
+    expose:
+      - 80
+    ports:
+      - "5000:80"
+
+  frontend:
+    build: ./frontend/textbook-exchange-app
+    container_name: frontend
+    expose:
+      - 4173
+    ports:
+      - "3000:4173"

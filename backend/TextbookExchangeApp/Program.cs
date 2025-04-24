@@ -1,13 +1,29 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 using TextbookExchangeApp.EntityFramework;
+using TextbookExchangeApp.Hubs;
 using TextbookExchangeApp.Models;
+using TextbookExchangeApp.Services.Auth;
+using TextbookExchangeApp.Services.Channel;
+using TextbookExchangeApp.Services.ChannelMessage;
+using TextbookExchangeApp.Services.ForumPost;
+using TextbookExchangeApp.Services.ForumReply;
 using TextbookExchangeApp.Services.Listing;
-using TextbookExchangeApp.Services.Login;
+using TextbookExchangeApp.Services.Profile;
 using TextbookExchangeApp.Services.Reply;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("FrontendPolicy", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173", "https://waffledev.me")
+            .AllowCredentials()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -31,17 +47,25 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
     
-builder.Services.AddScoped<ILoginService, LoginService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IListingService, ListingService>();
 builder.Services.AddScoped<IReplyService, ReplyService>();
+builder.Services.AddScoped<IProfileService, ProfileService>();
+builder.Services.AddScoped<IForumPostService, ForumPostService>();
+builder.Services.AddScoped<IForumReplyService, ForumReplyService>();
+builder.Services.AddScoped<IChannelService, ChannelService>();
+builder.Services.AddScoped<IChannelMessageService, ChannelMessageService>();
     
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+builder.Services.AddSignalR();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
 var app = builder.Build();
+
+app.UseCors("FrontendPolicy");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -50,14 +74,18 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
+app.MapHub<ChatHub>("/api/chatHub");
+
 app.Run();
 
-public partial class Program
+namespace TextbookExchangeApp
 {
+    public partial class Program
+    {
+    }
 }
