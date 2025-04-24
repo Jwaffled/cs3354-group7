@@ -1,8 +1,8 @@
-
+// src/pages/DirectMessages.jsx
 import { useState } from 'react';
 import ChatWindow from './ChatWindow';
 
-
+// mock full user list for “search”
 const allUsers = [
   { id: 101, name: 'Alice Smith' },
   { id: 102, name: 'Bob Johnson' },
@@ -11,6 +11,7 @@ const allUsers = [
   { id: 105, name: 'Evan Davis' },
 ];
 
+// initial messages for demo
 const initialDemoMessages = [
   { id: 1, content: 'hello',        sender: 'them', timestamp: '11:37:34 PM' },
   { id: 2, content: 'hi',           sender: 'me',   timestamp: '11:37:35 PM' },
@@ -18,13 +19,11 @@ const initialDemoMessages = [
 ];
 
 export default function DirectMessages() {
-
   const [chats, setChats] = useState([
     { id: 1, name: 'John Doe', lastMessage: 'hello', timestamp: '11:37 PM', initials: 'JD' },
     { id: 2, name: 'User 1',   lastMessage: '',      timestamp: '',         initials: 'U1' },
     { id: 3, name: 'User 2',   lastMessage: '',      timestamp: '',         initials: 'U2' },
   ]);
-
 
   const [messagesMap, setMessagesMap] = useState({
     1: [...initialDemoMessages],
@@ -33,10 +32,8 @@ export default function DirectMessages() {
   });
 
   const [currentChat, setCurrentChat] = useState(chats[0]);
-
-
-  const [showSearch, setShowSearch] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [showSearch, setShowSearch]   = useState(false);
+  const [searchTerm, setSearchTerm]   = useState('');
 
   const filteredUsers = allUsers.filter((u) =>
     u.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -48,23 +45,16 @@ export default function DirectMessages() {
   };
 
   const handleSelectUser = (user) => {
-    const chatId = Date.now();
+    const chatId    = Date.now();
     const timestamp = new Date().toLocaleTimeString('en-US', { hour12: true });
-    const initials = user.name
+    const initials  = user.name
       .split(' ')
       .map((w) => w[0])
       .join('')
       .slice(0, 2)
       .toUpperCase();
 
-    const newChat = {
-      id: chatId,
-      name: user.name,
-      lastMessage: '',
-      timestamp,
-      initials,
-    };
-
+    const newChat = { id: chatId, name: user.name, lastMessage: '', timestamp, initials };
     setChats((prev) => [...prev, newChat]);
     setMessagesMap((prev) => ({ ...prev, [chatId]: [] }));
     setCurrentChat(newChat);
@@ -78,16 +68,16 @@ export default function DirectMessages() {
       return rest;
     });
     if (currentChat.id === chatId) {
-      const nextChats = chats.filter((c) => c.id !== chatId);
-      setCurrentChat(nextChats[0] || null);
+      const next = chats.filter((c) => c.id !== chatId);
+      setCurrentChat(next[0] || null);
     }
   };
 
   const handleSendMessage = (msg) => {
-    setMessagesMap((prev) => ({
-      ...prev,
-      [currentChat.id]: [...(prev[currentChat.id] || []), msg],
-    }));
+    setMessagesMap((prev) => {
+      const arr = prev[currentChat.id] || [];
+      return { ...prev, [currentChat.id]: [...arr, msg] };
+    });
     setChats((prev) =>
       prev.map((c) =>
         c.id === currentChat.id
@@ -100,8 +90,9 @@ export default function DirectMessages() {
   const messages = messagesMap[currentChat.id] || [];
 
   return (
-    <div className="relative flex h-full p-4">
-      <div className="w-1/3 border-r pr-4 flex flex-col">
+    <div className="flex h-screen overflow-hidden p-4">
+      {/* SIDEBAR */}
+      <div className="w-1/3 border-r pr-4 flex flex-col h-full">
         <div className="flex items-center justify-between mb-4">
           <h1 className="text-2xl font-bold">Direct Messages</h1>
           <button
@@ -145,7 +136,8 @@ export default function DirectMessages() {
         </ul>
       </div>
 
-      <div className="w-2/3 pl-4 flex flex-col">
+      {/* CHAT AREA */}
+      <div className="w-2/3 pl-4 flex flex-col h-full">
         {currentChat ? (
           <ChatWindow
             key={currentChat.id}
@@ -160,6 +152,7 @@ export default function DirectMessages() {
         )}
       </div>
 
+      {/* SEARCH OVERLAY */}
       {showSearch && (
         <div className="absolute inset-0 bg-black bg-opacity-25 flex items-center justify-center">
           <div className="bg-white rounded-lg p-6 w-1/3">

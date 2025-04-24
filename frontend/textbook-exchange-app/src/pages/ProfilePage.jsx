@@ -2,6 +2,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
+// …other imports…
+
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
