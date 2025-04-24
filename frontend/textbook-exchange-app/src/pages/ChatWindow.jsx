@@ -53,7 +53,7 @@ export default function ChatWindow({ chat, messages, onSend }) {
 
 
       <div className="mt-4 flex items-center space-x-2">
- 
+
         <input
           type="text"
           placeholder="Type a Message..."

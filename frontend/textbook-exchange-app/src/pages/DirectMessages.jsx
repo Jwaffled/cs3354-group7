@@ -12,8 +12,8 @@ const allUsers = [
 ];
 
 const initialDemoMessages = [
-  { id: 1, content: 'hello',        sender: 'them', timestamp: '11:37:34 PM' },
-  { id: 2, content: 'hi',           sender: 'me',   timestamp: '11:37:35 PM' },
+  { id: 1, content: 'hello', sender: 'them', timestamp: '11:37:34 PM' },
+  { id: 2, content: 'hi', sender: 'me', timestamp: '11:37:35 PM' },
   { id: 3, content: 'u have book?', sender: 'them', timestamp: '11:37:36 PM' },
 ];
 
@@ -21,8 +21,8 @@ export default function DirectMessages() {
 
   const [chats, setChats] = useState([
     { id: 1, name: 'John Doe', lastMessage: 'hello', timestamp: '11:37 PM', initials: 'JD' },
-    { id: 2, name: 'User 1',   lastMessage: '',      timestamp: '',         initials: 'U1' },
-    { id: 3, name: 'User 2',   lastMessage: '',      timestamp: '',         initials: 'U2' },
+    { id: 2, name: 'User 1', lastMessage: '', timestamp: '', initials: 'U1' },
+    { id: 3, name: 'User 2', lastMessage: '', timestamp: '', initials: 'U2' },
   ]);
 
 
@@ -100,7 +100,7 @@ export default function DirectMessages() {
   const messages = messagesMap[currentChat.id] || [];
 
   return (
-    <div className="relative flex h-full p-4">
+    <div className="flex-grow flex p-4">
       <div className="w-1/3 border-r pr-4 flex flex-col">
         <div className="flex items-center justify-between mb-4">
           <h1 className="text-2xl font-bold">Direct Messages</h1>
@@ -145,7 +145,7 @@ export default function DirectMessages() {
         </ul>
       </div>
 
-      <div className="w-2/3 pl-4 flex flex-col">
+      <div className="w-2/3 pl-4 flex flex-col flex-grow">
         {currentChat ? (
           <ChatWindow
             key={currentChat.id}
