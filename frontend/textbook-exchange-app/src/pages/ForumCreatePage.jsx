@@ -1,16 +1,16 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { Label } from "@/components/ui/label";
+import { Label } from '@/components/ui/label';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default function ForumCreatePage() {
     const [form, setForm] = useState({
-        title: "",
-        description: "",
+        title: '',
+        description: '',
     });
     const [submitting, setSubmitting] = useState(false);
     const navigate = useNavigate();
@@ -50,8 +50,7 @@ export default function ForumCreatePage() {
         } finally {
             setSubmitting(false);
         }
-    }
-
+    };
 
     return (
         <div className="sm:w-1/2 max-w-2xl mx-auto py-10 px-4">
@@ -72,7 +71,10 @@ export default function ForumCreatePage() {
                 </div>
 
                 <div>
-                    <Label htmlFor="description" className="block text-sm font-medium mb-2">
+                    <Label
+                        htmlFor="description"
+                        className="block text-sm font-medium mb-2"
+                    >
                         Description
                     </Label>
                     <Textarea
@@ -86,7 +88,7 @@ export default function ForumCreatePage() {
                 </div>
 
                 <Button type="submit" className="w-full" disabled={submitting}>
-                    {submitting ? "Posting..." : "Create Post"}
+                    {submitting ? 'Posting...' : 'Create Post'}
                 </Button>
             </form>
         </div>

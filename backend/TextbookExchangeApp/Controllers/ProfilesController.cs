@@ -20,6 +20,15 @@ public class ProfilesController : ControllerBase
     }
 
     [Authorize]
+    [HttpGet]
+    public async Task<IActionResult> GetProfiles()
+    {
+        var users = await _profileService.GetAllProfileDataAsync();
+
+        return Ok(users);
+    }
+
+    [Authorize]
     [HttpGet("{profileId}")]
     public async Task<IActionResult> GetProfile(string profileId)
     {

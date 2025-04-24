@@ -7,4 +7,5 @@ public class ChannelMessageDetailsDto
     public DateTime CreatedAt { get; set; }
     public string AuthorName { get; set; }
     public string AuthorId { get; set; }
+    public int ChannelId { get; set; }
 }

@@ -2,8 +2,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
-// …other imports…
-
+import { Button } from '@/components/ui/button';
+import { MessageSquare } from 'lucide-react';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -77,6 +77,26 @@ export default function ProfilePage() {
         fetchProfileData();
     }, [profileId, navigate]);
 
+    const createDM = async (e) => {
+        e.preventDefault();
+        const res = await fetch(`${API_BASE_URL}/api/channels/dm`, {
+            credentials: 'include',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userIds: [profileId],
+            }),
+        });
+
+        if (res.ok) {
+            navigate('/messages');
+        } else {
+            toast.warning('Failed to create DM channel.');
+        }
+    };
+
     const createReply = async (e) => {
         e.preventDefault();
         const res = await fetch(
@@ -108,6 +128,14 @@ export default function ProfilePage() {
     return (
         <div className="w-full px-4 py-8 max-w-5xl mx-auto space-y-8">
             <h1 className="font-bold text-5xl">{profileName}'s Profile</h1>
+            <Button
+                onClick={createDM}
+                variant="outline"
+                className="flex items-center space-x-2"
+            >
+                <MessageSquare className="w-4 h-4" />
+                <span>Message</span>
+            </Button>
             <h3>Average Rating: {profileAvgRating.toFixed(1)}/5.0</h3>
             <Card className="p-6 text-center text-gray-400 italic">
                 <h2 className="text-xl font-semibold mb-4">Leave a Review</h2>

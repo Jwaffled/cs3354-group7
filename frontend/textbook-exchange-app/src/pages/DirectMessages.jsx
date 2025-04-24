@@ -1,192 +1,232 @@
-// src/pages/DirectMessages.jsx
-import { useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import * as signalR from '@microsoft/signalr';
 import ChatWindow from './ChatWindow';
+import { useAuth } from '@/context/AuthContext';
+import { GroupDMModal } from '@/components/GroupDMModal';
+import { toast } from 'sonner';
 
-// mock full user list for “search”
-const allUsers = [
-  { id: 101, name: 'Alice Smith' },
-  { id: 102, name: 'Bob Johnson' },
-  { id: 103, name: 'Charlie Lee' },
-  { id: 104, name: 'Dana White' },
-  { id: 105, name: 'Evan Davis' },
-];
-
-// initial messages for demo
-const initialDemoMessages = [
-  { id: 1, content: 'hello',        sender: 'them', timestamp: '11:37:34 PM' },
-  { id: 2, content: 'hi',           sender: 'me',   timestamp: '11:37:35 PM' },
-  { id: 3, content: 'u have book?', sender: 'them', timestamp: '11:37:36 PM' },
-];
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default function DirectMessages() {
-  const [chats, setChats] = useState([
-    { id: 1, name: 'John Doe', lastMessage: 'hello', timestamp: '11:37 PM', initials: 'JD' },
-    { id: 2, name: 'User 1',   lastMessage: '',      timestamp: '',         initials: 'U1' },
-    { id: 3, name: 'User 2',   lastMessage: '',      timestamp: '',         initials: 'U2' },
-  ]);
+    const { user } = useAuth();
+    const [chats, setChats] = useState([]);
+    const [messagesMap, setMessagesMap] = useState({});
+    const [currentChat, setCurrentChat] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const connectionRef = useRef(null);
 
-  const [messagesMap, setMessagesMap] = useState({
-    1: [...initialDemoMessages],
-    2: [],
-    3: [],
-  });
+    useEffect(() => {
+        const fetchChannels = async () => {
+            const res = await fetch(`${API_BASE_URL}/api/channels`, {
+                credentials: 'include',
+            });
+            const data = await res.json();
+            setChats(
+                data.map((c) => ({
+                    id: c.id,
+                    name: c.channelMemberNames.join(', '),
+                    lastMessage: c.lastMessage
+                        ? c.lastMessage.length <= 50
+                            ? c.lastMessage
+                            : c.lastMessage.substring(0, 50) + '...'
+                        : '',
+                    timestamp: c.lastMessageDate
+                        ? new Date(c.lastMessageDate).toLocaleTimeString()
+                        : '',
+                    initials: c.channelMemberNames
+                        .map((n) => n[0])
+                        .join('')
+                        .toUpperCase(),
+                }))
+            );
+        };
+        fetchChannels();
+    }, []);
 
-  const [currentChat, setCurrentChat] = useState(chats[0]);
-  const [showSearch, setShowSearch]   = useState(false);
-  const [searchTerm, setSearchTerm]   = useState('');
+    useEffect(() => {
+        const connect = async () => {
+            const connection = new signalR.HubConnectionBuilder()
+                .withUrl(`${API_BASE_URL}/api/chatHub`, {
+                    withCredentials: true,
+                })
+                .withAutomaticReconnect()
+                .build();
 
-  const filteredUsers = allUsers.filter((u) =>
-    u.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+            connection.on('ReceiveMessage', (msg) => {
+                setMessagesMap((prev) => {
+                    const arr = prev[msg.channelId] || [];
+                    return {
+                        ...prev,
+                        [msg.channelId]: [...arr, formatMessage(msg)],
+                    };
+                });
 
-  const handleNewChatClick = () => {
-    setShowSearch(true);
-    setSearchTerm('');
-  };
+                setChats((prev) =>
+                    prev.map((c) =>
+                        c.id === msg.channelId
+                            ? {
+                                  ...c,
+                                  lastMessage:
+                                      msg.content.length <= 50
+                                          ? msg.content
+                                          : msg.content.substring(0, 50) +
+                                            '...',
+                                  timestamp: new Date(
+                                      msg.createdAt
+                                  ).toLocaleTimeString(),
+                              }
+                            : c
+                    )
+                );
+            });
 
-  const handleSelectUser = (user) => {
-    const chatId    = Date.now();
-    const timestamp = new Date().toLocaleTimeString('en-US', { hour12: true });
-    const initials  = user.name
-      .split(' ')
-      .map((w) => w[0])
-      .join('')
-      .slice(0, 2)
-      .toUpperCase();
+            await connection.start();
+            connectionRef.current = connection;
+        };
 
-    const newChat = { id: chatId, name: user.name, lastMessage: '', timestamp, initials };
-    setChats((prev) => [...prev, newChat]);
-    setMessagesMap((prev) => ({ ...prev, [chatId]: [] }));
-    setCurrentChat(newChat);
-    setShowSearch(false);
-  };
+        connect();
+    }, []);
 
-  const handleDeleteChat = (chatId) => {
-    setChats((prev) => prev.filter((c) => c.id !== chatId));
-    setMessagesMap((prev) => {
-      const { [chatId]: _, ...rest } = prev;
-      return rest;
+    const onStartChat = async (ids) => {
+        const res = await fetch(`${API_BASE_URL}/api/channels/dm`, {
+            credentials: 'include',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userIds: ids,
+            }),
+        });
+
+        if (res.ok) {
+            const data = await res.json();
+            if (!chats.find((x) => x.id === data.id)) {
+                setChats([
+                    ...chats,
+                    {
+                        id: data.id,
+                        name: data.channelMemberNames.join(', '),
+                        lastMessage: '',
+                        timestamp: '',
+                        initials: data.channelMemberNames
+                            .map((n) => n[0])
+                            .join('')
+                            .toUpperCase(),
+                    },
+                ]);
+            }
+        } else {
+            toast.warning('Failed to create channel.');
+        }
+    };
+
+    const loadMessages = async (chat) => {
+        const res = await fetch(
+            `${API_BASE_URL}/api/channels/${chat.id}/messages`,
+            {
+                credentials: 'include',
+            }
+        );
+        const data = await res.json();
+        const formatted = data.map((m) => formatMessage(m));
+
+        setMessagesMap((prev) => ({ ...prev, [chat.id]: formatted }));
+        setCurrentChat(chat);
+        connectionRef.current?.invoke('JoinChannel', chat.id);
+    };
+
+    const handleSendMessage = async (msg) => {
+        const res = await fetch(
+            `${API_BASE_URL}/api/channels/${currentChat.id}/messages`,
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({ message: msg.content }),
+            }
+        );
+
+        if (!res.ok) {
+            toast.warning('Failed to send message. Please try again later.');
+        }
+    };
+
+    const formatMessage = (msg) => ({
+        id: msg.id,
+        content: msg.content,
+        sender: msg.authorId === user.id ? 'You' : msg.authorName,
+        timestamp: new Date(msg.createdAt).toLocaleTimeString(),
     });
-    if (currentChat.id === chatId) {
-      const next = chats.filter((c) => c.id !== chatId);
-      setCurrentChat(next[0] || null);
-    }
-  };
 
-  const handleSendMessage = (msg) => {
-    setMessagesMap((prev) => {
-      const arr = prev[currentChat.id] || [];
-      return { ...prev, [currentChat.id]: [...arr, msg] };
-    });
-    setChats((prev) =>
-      prev.map((c) =>
-        c.id === currentChat.id
-          ? { ...c, lastMessage: msg.content, timestamp: msg.timestamp }
-          : c
-      )
-    );
-  };
+    const messages = currentChat ? messagesMap[currentChat.id] || [] : [];
 
-  const messages = messagesMap[currentChat.id] || [];
-
-  return (
-    <div className="flex h-screen overflow-hidden p-4">
-      {/* SIDEBAR */}
-      <div className="w-1/3 border-r pr-4 flex flex-col h-full">
-        <div className="flex items-center justify-between mb-4">
-          <h1 className="text-2xl font-bold">Direct Messages</h1>
-          <button
-            onClick={handleNewChatClick}
-            className="px-3 py-1 bg-orange-500 text-white rounded hover:bg-orange-600"
-          >
-            + New Chat
-          </button>
-        </div>
-        <ul className="flex-1 overflow-y-auto space-y-2">
-          {chats.map((chat) => (
-            <li
-              key={chat.id}
-              onClick={() => { setCurrentChat(chat); setShowSearch(false); }}
-              className={`flex items-center justify-between p-2 rounded-lg cursor-pointer
-                ${currentChat.id === chat.id ? 'bg-gray-200' : 'bg-gray-100 hover:bg-gray-150'}`}
-            >
-              <div>
-                <div className="font-semibold">{chat.name}</div>
-                <div className="text-sm text-gray-500">
-                  {chat.lastMessage || 'No messages yet'}
+    return (
+        <div className="flex h-screen overflow-hidden p-4">
+            <div className="w-1/3 border-r pr-4 flex flex-col h-full">
+                <div className="flex items-center justify-between mb-4">
+                    <h1 className="text-2xl font-bold">Direct Messages</h1>
+                    <button
+                        onClick={() => setIsModalOpen(true)}
+                        className="px-3 py-1 bg-orange-500 text-white rounded hover:bg-orange-600"
+                    >
+                        + New Chat
+                    </button>
                 </div>
-              </div>
-              <div className="flex items-center space-x-2">
-                <div className="flex flex-col items-end">
-                  <div className="text-xs text-gray-400">{chat.timestamp}</div>
-                  <div className="w-8 h-8 bg-blue-200 rounded-full flex items-center justify-center text-blue-600">
-                    {chat.initials}
-                  </div>
-                </div>
-                <button
-                  onClick={(e) => { e.stopPropagation(); handleDeleteChat(chat.id); }}
-                  className="text-red-500 hover:text-red-700 ml-2"
-                  title="Delete chat"
-                >
-                  &times;
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
+                <ul className="flex-1 overflow-y-auto space-y-2">
+                    {chats.map((chat) => (
+                        <li
+                            key={chat.id}
+                            onClick={() =>
+                                currentChat?.id !== chat.id &&
+                                loadMessages(chat)
+                            }
+                            className={`flex items-center justify-between p-2 rounded-lg cursor-pointer ${
+                                currentChat?.id === chat.id
+                                    ? 'bg-gray-200'
+                                    : 'bg-gray-100 hover:bg-gray-150'
+                            }`}
+                        >
+                            <div>
+                                <div className="font-semibold">{chat.name}</div>
+                                <div className="text-sm text-gray-500">
+                                    {chat.lastMessage || 'No messages yet'}
+                                </div>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                                <div className="flex flex-col items-end">
+                                    <div className="text-xs text-gray-400">
+                                        {chat.timestamp}
+                                    </div>
+                                    <div className="w-8 h-8 bg-blue-200 rounded-full flex items-center justify-center text-blue-600">
+                                        {chat.initials}
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+            </div>
 
-      {/* CHAT AREA */}
-      <div className="w-2/3 pl-4 flex flex-col h-full">
-        {currentChat ? (
-          <ChatWindow
-            key={currentChat.id}
-            chat={currentChat}
-            messages={messages}
-            onSend={handleSendMessage}
-          />
-        ) : (
-          <div className="flex-grow flex items-center justify-center text-gray-500">
-            No chat selected.
-          </div>
-        )}
-      </div>
-
-      {/* SEARCH OVERLAY */}
-      {showSearch && (
-        <div className="absolute inset-0 bg-black bg-opacity-25 flex items-center justify-center">
-          <div className="bg-white rounded-lg p-6 w-1/3">
-            <h2 className="text-lg font-semibold mb-2">Start a new chat</h2>
-            <input
-              type="text"
-              placeholder="Search users..."
-              className="w-full mb-4 px-3 py-2 border rounded focus:outline-none"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+            <div className="w-2/3 pl-4 flex flex-col h-full">
+                {currentChat ? (
+                    <ChatWindow
+                        key={currentChat.id}
+                        chat={currentChat}
+                        messages={messages}
+                        onSend={handleSendMessage}
+                    />
+                ) : (
+                    <div className="flex-grow flex items-center justify-center text-gray-500">
+                        No chat selected.
+                    </div>
+                )}
+            </div>
+            <GroupDMModal
+                open={isModalOpen}
+                onOpenChange={setIsModalOpen}
+                onStartChat={onStartChat}
             />
-            <ul className="max-h-60 overflow-y-auto space-y-2">
-              {filteredUsers.map((u) => (
-                <li
-                  key={u.id}
-                  onClick={() => handleSelectUser(u)}
-                  className="p-2 hover:bg-gray-100 rounded cursor-pointer"
-                >
-                  {u.name}
-                </li>
-              ))}
-              {filteredUsers.length === 0 && (
-                <li className="text-gray-500">No users found</li>
-              )}
-            </ul>
-            <button
-              onClick={() => setShowSearch(false)}
-              className="mt-4 px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
-            >
-              Cancel
-            </button>
-          </div>
         </div>
-      )}
-    </div>
-  );
+    );
 }

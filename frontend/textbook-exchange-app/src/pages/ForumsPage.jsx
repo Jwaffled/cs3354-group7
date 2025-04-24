@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Link } from "react-router-dom";
-import { toast } from "sonner";
-import { useLocation } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Link } from 'react-router-dom';
+import { toast } from 'sonner';
+import { useLocation } from 'react-router-dom';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -22,12 +22,9 @@ export default function ForumsPage() {
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const res = await fetch(
-                    `${API_BASE_URL}/api/forums`,
-                    {
-                        credentials: 'include',
-                    }
-                );
+                const res = await fetch(`${API_BASE_URL}/api/forums`, {
+                    credentials: 'include',
+                });
 
                 if (res.ok) {
                     const data = await res.json();
@@ -40,7 +37,7 @@ export default function ForumsPage() {
             } finally {
                 setLoading(false);
             }
-        }
+        };
 
         fetchPosts();
     }, []);
@@ -70,15 +67,24 @@ export default function ForumsPage() {
                     <Card className="hover:shadow-md transition-shadow duration-200 my-4">
                         <CardContent className="px-4 space-y-2">
                             <div className="flex justify-between items-center">
-                                <h2 className="text-lg font-semibold">{post.title}</h2>
+                                <h2 className="text-lg font-semibold">
+                                    {post.title}
+                                </h2>
                                 <span className="text-sm text-gray-500">
                                     {new Date(post.createdAt).toLocaleString()}
                                 </span>
                             </div>
-                            <p className="text-sm text-gray-700">{post.preview}</p>
+                            <p className="text-sm text-gray-700">
+                                {post.preview}
+                            </p>
                             <div className="text-xs text-gray-500 flex justify-between">
                                 <span>By {post.authorName}</span>
-                                <span>{post.replyCount} {post.replyCount === 1 ? 'reply' : 'replies'}</span>
+                                <span>
+                                    {post.replyCount}{' '}
+                                    {post.replyCount === 1
+                                        ? 'reply'
+                                        : 'replies'}
+                                </span>
                             </div>
                         </CardContent>
                     </Card>

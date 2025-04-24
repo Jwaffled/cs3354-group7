@@ -28,11 +28,17 @@ public class ChannelMessageService : IChannelMessageService
         
         var messageData = await _dbContext.ChannelMessages
             .AsNoTracking()
+            .Include(x => x.CreatedBy)
             .FirstOrDefaultAsync(x => x.Id == message.Id);
 
         return new ChannelMessageDetailsDto
         {
-            Id = messageData.Id
+            Id = messageData.Id,
+            AuthorId = messageData.CreatedById,
+            AuthorName = messageData.CreatedBy.FirstName + " " + messageData.CreatedBy.LastName,
+            Content = messageData.Content,
+            CreatedAt = messageData.CreatedAt,
+            ChannelId = messageData.ChannelId,
         };
     }
 
@@ -40,6 +46,7 @@ public class ChannelMessageService : IChannelMessageService
     {
         var messages = await _dbContext.ChannelMessages
             .AsNoTracking()
+            .Include(x => x.CreatedBy)
             .Where(x => x.ChannelId == channelId)
             .OrderBy(x => x.CreatedAt)
             .ToListAsync();
@@ -47,6 +54,11 @@ public class ChannelMessageService : IChannelMessageService
         return messages.Select(x => new ChannelMessageDetailsDto
         {
             Id = x.Id,
+            CreatedAt = x.CreatedAt,
+            Content = x.Content,
+            AuthorId = x.CreatedById,
+            AuthorName = x.CreatedBy.FirstName + " " + x.CreatedBy.LastName,
+            ChannelId = x.ChannelId
         }).ToList();
     }
 }

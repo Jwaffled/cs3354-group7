@@ -1,9 +1,9 @@
-import { Skeleton } from "@/components/ui/skeleton";
-import { Card } from "@/components/ui/card";
-import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "sonner";
+import { Skeleton } from '@/components/ui/skeleton';
+import { Card } from '@/components/ui/card';
+import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'sonner';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -14,36 +14,41 @@ export default function ForumDetailsPage() {
     const [forumPost, setForumPost] = useState(null);
     const [replies, setReplies] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [replyText, setReplyText] = useState("");
+    const [replyText, setReplyText] = useState('');
 
     useEffect(() => {
         const fetchForumData = async () => {
             try {
                 const [postRes, repliesRes] = await Promise.all([
                     fetch(`${API_BASE_URL}/api/forums/${forumId}`, {
-                        credentials: 'include'
+                        credentials: 'include',
                     }),
                     fetch(`${API_BASE_URL}/api/forums/${forumId}/replies`, {
-                        credentials: 'include'
-                    })
+                        credentials: 'include',
+                    }),
                 ]);
 
                 if (postRes.ok && repliesRes.ok) {
                     const postData = await postRes.json();
                     const repliesData = await repliesRes.json();
                     setForumPost(postData);
-                    setReplies(repliesData.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
+                    setReplies(
+                        repliesData.sort(
+                            (a, b) =>
+                                new Date(b.createdAt) - new Date(a.createdAt)
+                        )
+                    );
                 } else {
                     throw new Error('Failed to load forum post.');
                 }
             } catch (err) {
                 navigate('/error', {
-                    state: { message: err.message }
+                    state: { message: err.message },
                 });
             } finally {
                 setLoading(false);
             }
-        }
+        };
 
         fetchForumData();
     }, [forumId, navigate]);
@@ -51,14 +56,17 @@ export default function ForumDetailsPage() {
     const createReply = async (e) => {
         e.preventDefault();
 
-        const res = await fetch(`${API_BASE_URL}/api/forums/${forumId}/replies`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include',
-            body: JSON.stringify({ message: replyText })
-        });
+        const res = await fetch(
+            `${API_BASE_URL}/api/forums/${forumId}/replies`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({ message: replyText }),
+            }
+        );
 
         if (res.ok) {
             toast.success('Reply submitted!');
@@ -70,7 +78,7 @@ export default function ForumDetailsPage() {
                 'There was an error trying to post your reply. Please try again later.'
             );
         }
-    }
+    };
 
     if (loading) {
         return (

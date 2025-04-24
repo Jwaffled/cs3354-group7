@@ -29,10 +29,9 @@ public class ChannelService : IChannelService
 
         if (existing != null)
         {
-            var lastMessageDate = await _dbContext.ChannelMessages
+            var lastMessage = await _dbContext.ChannelMessages
                 .Where(m => m.ChannelId == existing.Id)
                 .OrderByDescending(m => m.CreatedAt)
-                .Select(m => (DateTime?)m.CreatedAt)
                 .FirstOrDefaultAsync();
             
             return new ChannelDetailsDto
@@ -41,7 +40,8 @@ public class ChannelService : IChannelService
                 ChannelMemberNames = existing.ChannelUsers
                     .Select(cu => cu.User.FirstName + " " + cu.User.LastName)
                     .ToList(),
-                LastMessageDate = lastMessageDate
+                LastMessageDate = lastMessage?.CreatedAt,
+                LastMessage = lastMessage?.Content
             };
         }
 
@@ -76,21 +76,32 @@ public class ChannelService : IChannelService
         var channels = await _dbContext.Channels
             .AsNoTracking()
             .Where(c => c.ChannelUsers.Any(cu => cu.UserId == userId))
-            .Select(c => new ChannelDetailsDto
+            .Select(c => new
             {
-                Id = c.Id,
-                ChannelMemberNames = c.ChannelUsers
+                c.Id,
+                MemberNames = c.ChannelUsers
                     .Select(cu => cu.User.FirstName + " " + cu.User.LastName)
                     .ToList(),
-                LastMessageDate = _dbContext.ChannelMessages
+
+                LastMessage = _dbContext.ChannelMessages
                     .Where(m => m.ChannelId == c.Id)
                     .OrderByDescending(m => m.CreatedAt)
-                    .Select(m => (DateTime?)m.CreatedAt)
+                    .Select(m => new
+                    {
+                        m.CreatedAt,
+                        m.Content
+                    })
                     .FirstOrDefault()
             })
             .ToListAsync();
 
-        return channels;
+        return channels.Select(c => new ChannelDetailsDto
+        {
+            Id = c.Id,
+            ChannelMemberNames = c.MemberNames,
+            LastMessageDate = c.LastMessage?.CreatedAt,
+            LastMessage = c.LastMessage?.Content,
+        }).ToList();
     }
 
     public async Task<ChannelDetailsDto?> GetChannelByIdAsync(int id)
@@ -100,10 +111,9 @@ public class ChannelService : IChannelService
             .Include(x => x.ChannelUsers).ThenInclude(x => x.User)
             .FirstOrDefaultAsync(x => x.Id == id);
         
-        var lastMessageDate = await _dbContext.ChannelMessages
+        var lastMessage = await _dbContext.ChannelMessages
             .Where(m => m.ChannelId == id)
             .OrderByDescending(m => m.CreatedAt)
-            .Select(m => (DateTime?)m.CreatedAt)
             .FirstOrDefaultAsync();
         
         
@@ -114,7 +124,8 @@ public class ChannelService : IChannelService
             ChannelMemberNames = channel.ChannelUsers
                 .Select(cu => cu.User.FirstName + " " + cu.User.LastName)
                 .ToList(),
-            LastMessageDate = lastMessageDate
+            LastMessageDate = lastMessage?.CreatedAt,
+            LastMessage = lastMessage?.Content,
         };
     }
 }

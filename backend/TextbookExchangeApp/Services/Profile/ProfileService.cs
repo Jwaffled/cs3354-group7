@@ -30,4 +30,20 @@ public class ProfileService : IProfileService
             }
             : null;
     }
+
+    public async Task<List<ProfileDataDto>> GetAllProfileDataAsync()
+    {
+        var users = await _dbContext.Users
+            .AsNoTracking()
+            .Select(x => new ProfileDataDto
+            {
+                Id = x.Id,
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                AverageRating = x.RepliesReceived.Count != 0 ? x.RepliesReceived.Average(y => y.Rating) : 0
+            })
+            .ToListAsync();
+
+        return users;
+    }
 }
