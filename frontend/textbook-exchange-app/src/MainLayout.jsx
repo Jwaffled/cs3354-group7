@@ -81,6 +81,27 @@ const MainLayout = () => {
                             </DropdownMenuContent>
                         </DropdownMenu>
 
+                        {/* DMs Dropdown */}
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button
+                                    variant="ghost"
+                                    className="text-black hover:bg-gray-100"
+                                >
+                                    DMs
+                                    <ChevronDown className="w-4 h-4" />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                                <DropdownMenuItem onClick={() => navigate('/dms')}>
+                                    View DMs
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => navigate('/dms/create')}>
+                                    New Chat
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+
                         {/* Profile Dropdown */}
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>

@@ -13,6 +13,8 @@ import ProfilePage from '@/pages/ProfilePage';
 import ForumsPage from '@/pages/ForumsPage';
 import ForumCreatePage from '@/pages/ForumCreatePage';
 import ForumDetailsPage from '../pages/ForumDetailsPage';
+import DirectMessagesPage from '@/pages/DirectMessagesPage';
+import CreateChatPage from '@/pages/CreateChatPage';
 
 export default function AppRoutes() {
     return (
@@ -43,6 +45,9 @@ export default function AppRoutes() {
                     <Route path="/forums" element={<ForumsPage />} />
                     <Route path="/forums/create" element={<ForumCreatePage />} />
                     <Route path="/forums/:forumId" element={<ForumDetailsPage />} />
+                    <Route path="/dms" element={<DirectMessagesPage />} />
+                    <Route path="/dms/create" element={<CreateChatPage />} />
+
                 </Route>
             </Route>
         </Routes>
