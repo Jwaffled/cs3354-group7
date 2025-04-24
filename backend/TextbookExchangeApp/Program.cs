@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TextbookExchangeApp.EntityFramework;
+using TextbookExchangeApp.Hubs;
 using TextbookExchangeApp.Models;
 using TextbookExchangeApp.Services.Auth;
+using TextbookExchangeApp.Services.Channel;
+using TextbookExchangeApp.Services.ChannelMessage;
 using TextbookExchangeApp.Services.ForumPost;
 using TextbookExchangeApp.Services.ForumReply;
 using TextbookExchangeApp.Services.Listing;
@@ -50,8 +53,11 @@ builder.Services.AddScoped<IReplyService, ReplyService>();
 builder.Services.AddScoped<IProfileService, ProfileService>();
 builder.Services.AddScoped<IForumPostService, ForumPostService>();
 builder.Services.AddScoped<IForumReplyService, ForumReplyService>();
+builder.Services.AddScoped<IChannelService, ChannelService>();
+builder.Services.AddScoped<IChannelMessageService, ChannelMessageService>();
     
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+builder.Services.AddSignalR();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -72,6 +78,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHub<ChatHub>("/api/chatHub");
 
 app.Run();
 

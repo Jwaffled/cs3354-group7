@@ -21,6 +21,10 @@ namespace TextbookExchangeApp.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateListing([FromBody] CreateListingDto dto)
         {
+            if (dto.Condition.HasValue && !Enum.IsDefined(dto.Condition.Value))
+            {
+                return BadRequest(new { message = "Condition must be a valid enum value." });
+            }
             var listingId = await _listingService.CreateListingAsync(dto);
             var listing = await _listingService.GetListingByIdAsync(listingId);
             return Ok(listing);

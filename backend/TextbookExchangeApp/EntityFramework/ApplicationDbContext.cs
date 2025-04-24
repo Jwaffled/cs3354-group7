@@ -19,6 +19,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Reply> Replies { get; set; }
     public DbSet<ForumPost> ForumPosts { get; set; }
     public DbSet<ForumReply> ForumReplies { get; set; }
+    public DbSet<Channel> Channels { get; set; }
+    public DbSet<ChannelUser> ChannelUsers { get; set; }
+    public DbSet<ChannelMessage> ChannelMessages { get; set; }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -56,6 +60,24 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(x => x.ForumPost)
             .WithMany(x => x.ForumReplies)
             .HasForeignKey(x => x.ForumPostId);
+
+        builder.Entity<ChannelUser>()
+            .HasKey(x => new { x.ChannelId, x.UserId });
+
+        builder.Entity<ChannelUser>()
+            .HasOne(x => x.Channel)
+            .WithMany(x => x.ChannelUsers)
+            .HasForeignKey(x => x.ChannelId);
+        
+        builder.Entity<ChannelUser>()
+            .HasOne(x => x.User)
+            .WithMany()
+            .HasForeignKey(x => x.UserId);
+        
+        builder.Entity<ChannelMessage>()
+            .HasOne(x => x.Channel)
+            .WithMany(x => x.ChannelMessages)
+            .HasForeignKey(x => x.ChannelId);
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
