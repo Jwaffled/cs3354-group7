@@ -224,11 +224,11 @@ namespace TextbookExchangeApp.Tests.ListController
 
             var dto = new
             {
-                Title = (string)null,
+                Title = (string?)null,
                 Description = "Testing nulls.",
                 Price = 15.0,
                 Condition = (int)TextbookCondition.New,
-                ImageUrl = (string)null // This should be okay
+                ImageUrl = (string?)null // This should be okay
             };
 
         var response = await client.PostAsJsonAsync("/api/listings", dto);
