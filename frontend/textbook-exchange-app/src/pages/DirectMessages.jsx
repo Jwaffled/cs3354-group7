@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react'; 
 import * as signalR from '@microsoft/signalr';
 import ChatWindow from './ChatWindow';
 import { useAuth } from '@/context/AuthContext';
@@ -168,7 +168,7 @@ export default function DirectMessages() {
                     <h1 className="text-2xl font-bold">Direct Messages</h1>
                     <button
                         onClick={() => setIsModalOpen(true)}
-                        className="px-3 py-1 bg-orange-500 text-white rounded hover:bg-orange-600"
+                        className="px-3 py-1 text-black rounded shadow bg-gradient-to-r from-sky-200 via-teal-200 to-emerald-200 hover:brightness-110 transition"
                     >
                         + New Chat
                     </button>
@@ -183,13 +183,13 @@ export default function DirectMessages() {
                             }
                             className={`flex items-center justify-between p-2 rounded-lg cursor-pointer ${
                                 currentChat?.id === chat.id
-                                    ? 'bg-gray-200'
-                                    : 'bg-gray-100 hover:bg-gray-150'
+                                    ? 'bg-gradient-to-r from-sky-200 via-teal-200 to-emerald-200'
+                                    : 'bg-gray-100 hover:bg-gray-200'
                             }`}
                         >
                             <div>
                                 <div className="font-semibold">{chat.name}</div>
-                                <div className="text-sm text-gray-500">
+                                <div className="text-sm text-gray-600">
                                     {chat.lastMessage || 'No messages yet'}
                                 </div>
                             </div>
@@ -215,6 +215,7 @@ export default function DirectMessages() {
                         chat={currentChat}
                         messages={messages}
                         onSend={handleSendMessage}
+                        bubbleClassName="bg-gradient-to-r from-sky-200 via-teal-200 to-emerald-200 text-black"
                     />
                 ) : (
                     <div className="flex-grow flex items-center justify-center text-gray-500">

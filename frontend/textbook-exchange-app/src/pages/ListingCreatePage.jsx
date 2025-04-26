@@ -14,6 +14,7 @@ export default function ListingCreatePage() {
         description: '',
         price: '',
         condition: '',
+        imageUrl: '',
     });
 
     const [conditions, setConditions] = useState([]);
@@ -23,9 +24,7 @@ export default function ListingCreatePage() {
             try {
                 const response = await fetch(
                     `${API_BASE_URL}/api/listings/conditions`,
-                    {
-                        credentials: 'include',
-                    }
+                    { credentials: 'include' }
                 );
 
                 if (!response.ok) {
@@ -86,85 +85,96 @@ export default function ListingCreatePage() {
     };
 
     return (
-        <div className="max-w-2xl mx-auto py-10 px-4">
-            <h1 className="text-3xl font-bold mb-6">Create a New Listing</h1>
-            <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                    <Label htmlFor="title" className="mb-2">
-                        Title
-                    </Label>
-                    <Input
-                        name="title"
-                        value={form.title}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
+        <div className="min-h-screen bg-gradient-to-r from-sky-200 via-teal-200 to-emerald-200 flex justify-center items-start py-12 px-4">
+            <div className="w-full max-w-2xl bg-white text-black rounded-lg shadow-md p-8">
+                <h1 className="text-3xl font-bold mb-6">
+                    Create a New Listing
+                </h1>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    <div>
+                        <Label htmlFor="title" className="mb-1 block">
+                            Title
+                        </Label>
+                        <Input
+                            name="title"
+                            value={form.title}
+                            onChange={handleChange}
+                            required
+                            className="border border-emerald-300 focus:ring-emerald-500"
+                        />
+                    </div>
 
-                <div>
-                    <Label htmlFor="description" className="mb-2">
-                        Description
-                    </Label>
-                    <Textarea
-                        name="description"
-                        value={form.description}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
+                    <div>
+                        <Label htmlFor="description" className="mb-1 block">
+                            Description
+                        </Label>
+                        <Textarea
+                            name="description"
+                            value={form.description}
+                            onChange={handleChange}
+                            required
+                            className="border border-emerald-300 focus:ring-emerald-500"
+                        />
+                    </div>
 
-                <div>
-                    <Label htmlFor="price" className="mb-2">
-                        Price
-                    </Label>
-                    <Input
-                        name="price"
-                        type="number"
-                        min="0"
-                        step="0.01"
-                        value={form.price}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
+                    <div>
+                        <Label htmlFor="price" className="mb-1 block">
+                            Price
+                        </Label>
+                        <Input
+                            name="price"
+                            type="number"
+                            min="0"
+                            step="0.01"
+                            value={form.price}
+                            onChange={handleChange}
+                            required
+                            className="border border-emerald-300 focus:ring-emerald-500"
+                        />
+                    </div>
 
-                <div>
-                    <Label htmlFor="condition" className="mb-2">
-                        Condition
-                    </Label>
-                    <select
-                        name="condition"
-                        value={form.condition}
-                        onChange={handleChange}
-                        required
-                        className="w-full border rounded-md px-3 py-2 mt-1"
+                    <div>
+                        <Label htmlFor="condition" className="mb-1 block">
+                            Condition
+                        </Label>
+                        <select
+                            name="condition"
+                            value={form.condition}
+                            onChange={handleChange}
+                            required
+                            className="w-full border border-emerald-300 rounded-md px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        >
+                            <option value="">Select a condition</option>
+                            {conditions.map((c) => (
+                                <option key={c.value} value={c.value}>
+                                    {c.label}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div>
+                        <Label htmlFor="imageUrl" className="mb-1 block">
+                            Image URL
+                        </Label>
+                        <Input
+                            name="imageUrl"
+                            type="text"
+                            value={form.imageUrl}
+                            onChange={handleChange}
+                            required
+                            className="border border-emerald-300 focus:ring-emerald-500"
+                        />
+                    </div>
+
+                    <Button
+                        type="submit"
+                        className="w-full bg-gradient-to-r from-sky-200 via-teal-200 to-emerald-200 hover:opacity-90 text-black"
                     >
-                        <option value="">Select a condition</option>
-                        {conditions.map((c) => (
-                            <option key={c.value} value={c.value}>
-                                {c.label}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-
-                <div>
-                    <Label htmlFor="imageUrl" className="mb-2">
-                        Image URL
-                    </Label>
-                    <Input
-                        name="imageUrl"
-                        type="text"
-                        value={form.imageUrl}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-
-                <Button type="submit" className="w-full">
-                    Create Listing
-                </Button>
-            </form>
+                        Create Listing
+                    </Button>
+                </form>
+            </div>
         </div>
     );
 }

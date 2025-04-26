@@ -91,10 +91,10 @@ export default function ForumDetailsPage() {
     }
 
     return (
-        <div className="sm:w-1/2 px-4 py-8 max-w-5xl mx-auto space-y-8">
+        <div className="sm:w-1/2 px-4 py-8 max-w-5xl mx-auto space-y-8 bg-gradient-to-r from-sky-200 via-teal-200 to-emerald-200 min-h-screen">
             <div className="space-y-2">
                 <h1 className="text-3xl font-bold">{forumPost.title}</h1>
-                <p className="text-gray-500">
+                <p className="text-gray-700">
                     Posted by{' '}
                     <span className="font-medium">
                         <Link
@@ -121,19 +121,19 @@ export default function ForumDetailsPage() {
                     on {new Date(forumPost.createdAt).toLocaleString()}
                 </p>
             </div>
-
-            <Card className="p-6">
+    
+            <Card className="p-6 bg-white">
                 <h2 className="text-xl font-semibold mb-2">Description</h2>
                 <p className="text-gray-700 whitespace-pre-line">
                     {forumPost.description || 'No content provided.'}
                 </p>
             </Card>
-
-            <Card className="p-6 text-center text-gray-400 italic">
+    
+            <Card className="p-6 text-center bg-white text-black">
                 <h2 className="text-xl font-semibold mb-4">Leave a Reply</h2>
                 <form className="space-y-4" onSubmit={createReply}>
                     <textarea
-                        className="w-full p-2 border text-black rounded resize-none h-24"
+                        className="w-full p-2 border border-emerald-300 text-black rounded resize-none h-24"
                         placeholder="Write your reply..."
                         value={replyText}
                         onChange={(e) => setReplyText(e.target.value)}
@@ -141,14 +141,14 @@ export default function ForumDetailsPage() {
                     />
                     <button
                         type="submit"
-                        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                        className="px-4 py-2 rounded text-black bg-gradient-to-r from-sky-300 via-teal-300 to-emerald-300 hover:opacity-90"
                     >
                         Submit Reply
                     </button>
                 </form>
             </Card>
-
-            <Card className="p-6 space-y-4">
+    
+            <Card className="p-6 space-y-4 bg-white text-black">
                 <h2 className="text-xl font-semibold">Replies</h2>
                 {replies.length === 0 ? (
                     <p className="text-gray-500 italic">No replies yet.</p>
@@ -180,7 +180,7 @@ export default function ForumDetailsPage() {
                             <p className="text-gray-700 whitespace-pre-line">
                                 {reply.message}
                             </p>
-                            <p className="text-sm text-gray-400 mt-1">
+                            <p className="text-sm text-gray-500 mt-1">
                                 Posted on{' '}
                                 {new Date(reply.createdAt).toLocaleDateString()}
                             </p>
@@ -190,4 +190,4 @@ export default function ForumDetailsPage() {
             </Card>
         </div>
     );
-}
+}    

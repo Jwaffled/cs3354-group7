@@ -65,7 +65,7 @@ export default function ChatWindow({ chat, messages, onSend }) {
                 />
                 <button
                     onClick={handleSend}
-                    className="px-4 py-2 bg-green-500 text-white rounded-full hover:bg-green-600"
+                    className="px-4 py-2 bg-gradient-to-r from-sky-200 via-teal-200 to-emerald-200 text-black rounded-full hover:brightness-110 transition"
                 >
                     Send
                 </button>

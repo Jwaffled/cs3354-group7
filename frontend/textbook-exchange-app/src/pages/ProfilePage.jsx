@@ -130,8 +130,7 @@ export default function ProfilePage() {
             <h1 className="font-bold text-5xl">{profileName}'s Profile</h1>
             <Button
                 onClick={createDM}
-                variant="outline"
-                className="flex items-center space-x-2"
+                className="flex items-center space-x-2 bg-gradient-to-r from-sky-200 via-teal-200 to-emerald-200 hover:opacity-90 text-black"
             >
                 <MessageSquare className="w-4 h-4" />
                 <span>Message</span>
@@ -168,7 +167,7 @@ export default function ProfilePage() {
 
                     <button
                         type="submit"
-                        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                        className="w-full px-4 py-2 bg-gradient-to-r from-sky-200 via-teal-200 to-emerald-200 text-black rounded hover:opacity-90"
                     >
                         Submit Reply
                     </button>

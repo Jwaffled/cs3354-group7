@@ -12,6 +12,7 @@ export default function ForumCreatePage() {
         title: '',
         description: '',
     });
+
     const [submitting, setSubmitting] = useState(false);
     const navigate = useNavigate();
 
@@ -24,7 +25,6 @@ export default function ForumCreatePage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         setSubmitting(true);
 
         try {
@@ -53,44 +53,47 @@ export default function ForumCreatePage() {
     };
 
     return (
-        <div className="sm:w-1/2 max-w-2xl mx-auto py-10 px-4">
-            <h1 className="text-3xl font-bold mb-6">Create a New Forum Post</h1>
+        <div className="min-h-screen bg-gradient-to-r from-sky-200 via-teal-200 to-emerald-200 flex justify-center items-start py-12 px-4">
+            <div className="w-full max-w-2xl bg-white text-black rounded-lg shadow-md p-8">
+                <h1 className="text-3xl font-bold mb-6">Create a New Forum Post</h1>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                    <Label htmlFor="title" className="mb-2">
-                        Title
-                    </Label>
-                    <Input
-                        name="title"
-                        value={form.title}
-                        onChange={handleChange}
-                        placeholder="Enter your post title"
-                        required
-                    />
-                </div>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    <div>
+                        <Label htmlFor="title" className="mb-1 block">
+                            Title
+                        </Label>
+                        <Input
+                            name="title"
+                            value={form.title}
+                            onChange={handleChange}
+                            required
+                            className="border border-emerald-300 focus:ring-emerald-500"
+                        />
+                    </div>
 
-                <div>
-                    <Label
-                        htmlFor="description"
-                        className="block text-sm font-medium mb-2"
+                    <div>
+                        <Label htmlFor="description" className="mb-1 block">
+                            Description
+                        </Label>
+                        <Textarea
+                            name="description"
+                            value={form.description}
+                            onChange={handleChange}
+                            rows={6}
+                            required
+                            className="border border-emerald-300 focus:ring-emerald-500"
+                        />
+                    </div>
+
+                    <Button
+                        type="submit"
+                        className="w-full bg-gradient-to-r from-sky-200 via-teal-200 to-emerald-200 hover:opacity-90 text-black"
+                        disabled={submitting}
                     >
-                        Description
-                    </Label>
-                    <Textarea
-                        name="description"
-                        rows={6}
-                        value={form.description}
-                        onChange={handleChange}
-                        placeholder="Write your post..."
-                        required
-                    />
-                </div>
-
-                <Button type="submit" className="w-full" disabled={submitting}>
-                    {submitting ? 'Posting...' : 'Create Post'}
-                </Button>
-            </form>
+                        {submitting ? 'Posting...' : 'Create Post'}
+                    </Button>
+                </form>
+            </div>
         </div>
     );
 }

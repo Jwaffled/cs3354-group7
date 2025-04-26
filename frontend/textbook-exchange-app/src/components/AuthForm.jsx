@@ -94,7 +94,10 @@ export default function AuthForm({ type = 'login', onSubmit }) {
                     />
                 </div>
             )}
-            <Button type="submit" className="w-full">
+            <Button
+                type="submit"
+                className="w-full bg-gradient-to-r from-sky-200 via-teal-200 to-emerald-200 text-black border border-black hover:brightness-105 transition"
+            >
                 {isRegister ? 'Register' : 'Login'}
             </Button>
         </form>

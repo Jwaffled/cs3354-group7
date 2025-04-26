@@ -47,7 +47,7 @@ export default function ListingDetailsPage() {
 
     if (loading) {
         return (
-            <div className="p-8">
+            <div className="p-8 bg-gradient-to-r from-sky-200 via-teal-200 to-emerald-200 min-h-screen">
                 <Skeleton className="w-1/2 h-10 mb-4" />
                 <Skeleton className="w-full h-60 mb-4" />
                 <Skeleton className="w-1/4 h-6 mb-2" />
@@ -57,7 +57,7 @@ export default function ListingDetailsPage() {
     }
 
     return (
-        <div className="px-4 py-8 max-w-5xl mx-auto space-y-8">
+        <div className="px-4 py-10 max-w-5xl mx-auto space-y-8 bg-gradient-to-r from-sky-200 via-teal-200 to-emerald-200 min-h-screen text-black">
             <div className="flex flex-col md:flex-row gap-8">
                 <img
                     src={
@@ -65,22 +65,22 @@ export default function ListingDetailsPage() {
                         'https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg'
                     }
                     alt="Book cover"
-                    className="w-full md:w-1/3 object-cover rounded shadow-md"
+                    className="w-full md:w-1/3 object-cover rounded-lg shadow"
                 />
 
                 <div className="flex-1 space-y-2">
                     <h1 className="text-3xl font-bold">
                         {listing.title} | ${listing.price.toFixed(2)}
                     </h1>
-                    <p className="text-gray-500">
+                    <p>
                         Condition:{' '}
                         <span className="font-medium">{listing.condition}</span>
                     </p>
-                    <p className="text-gray-500">
+                    <p>
                         Posted by:{' '}
                         <Link
                             to={`/profile/${listing.createdById}`}
-                            className="font-medium text-blue-600 hover:underline hover:text-blue-800 inline-flex items-center gap-1"
+                            className="font-medium text-emerald-700 hover:underline hover:text-emerald-900 inline-flex items-center gap-1"
                         >
                             {listing.authorName || 'Unknown'}
                             <svg
@@ -99,7 +99,7 @@ export default function ListingDetailsPage() {
                             </svg>
                         </Link>
                     </p>
-                    <p className="text-gray-500">
+                    <p>
                         Posted on:{' '}
                         <span className="font-medium">
                             {new Date(listing.createdAt).toLocaleDateString()}
@@ -108,9 +108,9 @@ export default function ListingDetailsPage() {
                 </div>
             </div>
 
-            <Card className="p-6">
+            <Card className="p-6 bg-white/80 border border-emerald-200 shadow">
                 <h2 className="text-xl font-semibold mb-2">Description</h2>
-                <p className="text-gray-700 whitespace-pre-line">
+                <p className="whitespace-pre-line">
                     {listing.description || 'No description provided.'}
                 </p>
             </Card>

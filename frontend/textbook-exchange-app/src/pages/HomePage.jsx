@@ -28,7 +28,7 @@ export default function HomePage() {
                     </p>
                     <Button
                         onClick={handleClick}
-                        className="bg-primary text-base px-6 py-3 rounded-xl"
+                        className="bg-gradient-to-r from-sky-200 via-teal-200 to-emerald-200 text-black text-base px-6 py-3 rounded-xl border border-black/20"
                     >
                         Get Started
                     </Button>

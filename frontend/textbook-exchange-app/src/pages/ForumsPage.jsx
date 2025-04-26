@@ -64,20 +64,20 @@ export default function ForumsPage() {
 
             {posts.map((post) => (
                 <Link to={`/forums/${post.id}`} key={post.id}>
-                    <Card className="hover:shadow-md transition-shadow duration-200 my-4">
-                        <CardContent className="px-4 space-y-2">
+                    <div className="p-4 bg-gradient-to-r from-sky-200 via-teal-200 to-emerald-200 border border-emerald-100 rounded-lg shadow hover:shadow-lg transition-all hover:scale-[1.01] text-black my-4">
+                        <div className="px-4 space-y-2">
                             <div className="flex justify-between items-center">
                                 <h2 className="text-lg font-semibold">
                                     {post.title}
                                 </h2>
-                                <span className="text-sm text-gray-500">
+                                <span className="text-sm text-gray-700">
                                     {new Date(post.createdAt).toLocaleString()}
                                 </span>
                             </div>
-                            <p className="text-sm text-gray-700">
+                            <p className="text-sm text-gray-800">
                                 {post.preview}
                             </p>
-                            <div className="text-xs text-gray-500 flex justify-between">
+                            <div className="text-xs text-gray-700 flex justify-between">
                                 <span>By {post.authorName}</span>
                                 <span>
                                     {post.replyCount}{' '}
@@ -86,8 +86,8 @@ export default function ForumsPage() {
                                         : 'replies'}
                                 </span>
                             </div>
-                        </CardContent>
-                    </Card>
+                        </div>
+                    </div>
                 </Link>
             ))}
         </div>

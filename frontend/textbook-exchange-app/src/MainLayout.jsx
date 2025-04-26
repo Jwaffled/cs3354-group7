@@ -7,13 +7,6 @@ import {
     DropdownMenuTrigger,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuPortal,
-    DropdownMenuSeparator,
-    DropdownMenuShortcut,
-    DropdownMenuSub,
-    DropdownMenuSubTrigger,
-    DropdownMenuSubContent,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { ChevronDown } from 'lucide-react';
@@ -24,8 +17,8 @@ const MainLayout = () => {
 
     return (
         <div className="h-screen flex flex-col">
-            <header className="bg-white shadow p-4 flex items-center justify-between">
-                <Link to="/" className="text-xl font-bold text-black">
+            <header className="bg-gradient-to-r from-sky-200 via-teal-200 to-emerald-200 shadow p-4 flex items-center justify-between text-black">
+                <Link to="/" className="text-xl font-bold">
                     UTD Textbook Exchange
                 </Link>
 
@@ -36,7 +29,7 @@ const MainLayout = () => {
                             <DropdownMenuTrigger asChild>
                                 <Button
                                     variant="ghost"
-                                    className="text-black hover:bg-gray-100"
+                                    className="text-black hover:bg-emerald-100"
                                 >
                                     Listings <ChevronDown className="w-4 h-4" />
                                 </Button>
@@ -60,7 +53,7 @@ const MainLayout = () => {
                             <DropdownMenuTrigger asChild>
                                 <Button
                                     variant="ghost"
-                                    className="text-black hover:bg-gray-100"
+                                    className="text-black hover:bg-emerald-100"
                                 >
                                     Forums <ChevronDown className="w-4 h-4" />
                                 </Button>
@@ -80,19 +73,20 @@ const MainLayout = () => {
                         </DropdownMenu>
 
                         {/* Direct Messages Link */}
-                        <button
+                        <Button
+                            variant="ghost"
+                            className="text-black hover:bg-emerald-100"
                             onClick={() => navigate('/messages')}
-                            className="text-black hover:bg-gray-100 px-3 py-1 rounded"
                         >
                             Messages
-                        </button>
+                        </Button>
 
                         {/* Profile Dropdown */}
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button
                                     variant="ghost"
-                                    className="text-black hover:bg-gray-100"
+                                    className="text-black hover:bg-emerald-100"
                                 >
                                     Welcome, {user.firstName}{' '}
                                     <ChevronDown className="w-4 h-4" />
@@ -104,7 +98,7 @@ const MainLayout = () => {
                                 >
                                     Profile
                                 </DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => logout()}>
+                                <DropdownMenuItem onClick={logout}>
                                     Logout
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
