@@ -40,13 +40,33 @@ namespace TextbookExchangeApp.Tests.ProfilesController
             return client;
         }
 
+        private HttpClient LoginAuthenticatedClient(string email, string password)
+        {
+            var client = _factory.CreateClient(new WebApplicationFactoryClientOptions
+            {
+                AllowAutoRedirect = false,
+                HandleCookies = true
+            });
+
+            var loginResponse = client.PostAsJsonAsync("/api/auth/login", new
+            {
+                Email = email,
+                Password = password
+            }).Result;
+
+            if (!loginResponse.IsSuccessStatusCode)
+            {
+                throw new InvalidOperationException("Login failed. Ensure the account exists before using this method.");
+            }
+
+            return client;
+        }
+
         [Fact]
         public async Task GetProfile_WithValidId_ShouldReturnOk()
         {
             // New login
-            var email = $"getProfileValidId{Guid.NewGuid()}@example.com";
-            var password = "StrongPass123$";
-            var client = CreateAuthenticatedClient(email, password);
+            var client = CreateAuthenticatedClient($"skibidiChungusDeluxeXXL@example.com", "StrongPass123$");
 
             var meResponse = await client.GetAsync("/api/auth/me");
             Assert.Equal(HttpStatusCode.OK, meResponse.StatusCode);
@@ -70,10 +90,8 @@ namespace TextbookExchangeApp.Tests.ProfilesController
         [Fact]
         public async Task GetProfile_WithInvalidId_ShouldReturnNotFound()
         {
-            // New login
-            var email = $"getProfileInvalidId{Guid.NewGuid()}@example.com";
-            var password = "StrongPass123$";
-            var client = CreateAuthenticatedClient(email, password);
+            // Login
+            var client = LoginAuthenticatedClient($"skibidiChungusDeluxeXXL@example.com", "StrongPass123$");
 
             var invalidProfileId = Guid.NewGuid().ToString();
 
@@ -89,10 +107,8 @@ namespace TextbookExchangeApp.Tests.ProfilesController
         [Fact]
         public async Task CreateReply_WithValidRating_ShouldReturnOk()
         {
-            // New login
-            var email = $"createReplyValidRating{Guid.NewGuid()}@example.com";
-            var password = "StrongPass123$";
-            var client = CreateAuthenticatedClient(email, password);
+            // Login
+            var client = LoginAuthenticatedClient($"skibidiChungusDeluxeXXL@example.com", "StrongPass123$");
 
             // Get Profile ID
             var userResponse = await client.GetAsync("/api/auth/me");
@@ -119,10 +135,8 @@ namespace TextbookExchangeApp.Tests.ProfilesController
         [Fact]
         public async Task CreateReply_WithInvalidRating_ShouldReturnBadRequest()
         {
-            // New login
-            var email = $"createReplyInvalidRating{Guid.NewGuid()}@example.com";
-            var password = "StrongPass123$";
-            var client = CreateAuthenticatedClient(email, password);
+            // Login
+            var client = LoginAuthenticatedClient($"skibidiChungusDeluxeXXL@example.com", "StrongPass123$");
 
             // Get Profile ID
             var userResponse = await client.GetAsync("/api/auth/me");
@@ -146,10 +160,8 @@ namespace TextbookExchangeApp.Tests.ProfilesController
         [Fact]
         public async Task GetStarAvg_WithValidAvgRating_ShouldReturnOk()
         {
-            // New login
-            var email = $"getProfileValidAvg{Guid.NewGuid()}@example.com";
-            var password = "StrongPass123$";
-            var client = CreateAuthenticatedClient(email, password);
+            // New Login
+            var client = CreateAuthenticatedClient($"validStarAvg{Guid.NewGuid()}@example.com", "StrongPass123$");
 
             // Get profile ID
             var userResponse = await client.GetAsync("/api/auth/me");
@@ -183,10 +195,8 @@ namespace TextbookExchangeApp.Tests.ProfilesController
         [Fact]
         public async Task GetStarAvg_WithInvalidAvgRating_ShouldReturnBadRequest()
         {
-            // New login
-            var email = $"getProfileInvalidRating{Guid.NewGuid()}@example.com";
-            var password = "StrongPass123$";
-            var client = CreateAuthenticatedClient(email, password);
+            // Login
+            var client = LoginAuthenticatedClient($"skibidiChungusDeluxeXXL@example.com", "StrongPass123$");
 
             // Get profile ID
             var userResponse = await client.GetAsync("/api/auth/me");
@@ -207,10 +217,8 @@ namespace TextbookExchangeApp.Tests.ProfilesController
         [Fact]
         public async Task GetReplyRating_WithValidRating_ShouldReturnOk()
         {
-            // New login
-            var email = $"getReplyRatingValidRating{Guid.NewGuid()}@example.com";
-            var password = "StrongPass123$";
-            var client = CreateAuthenticatedClient(email, password);
+            // New Login
+            var client = CreateAuthenticatedClient($"valid{Guid.NewGuid()}@example.com", "StrongPass123$");
 
             // Get Profile ID
             var userResponse = await client.GetAsync("/api/auth/me");
@@ -236,10 +244,8 @@ namespace TextbookExchangeApp.Tests.ProfilesController
         [Fact]
         public async Task GetReplyRating_WithInvalidRating_ShouldReturnBadRequest()
         {
-            // New login
-            var email = $"getReplyRatingInvalidRating{Guid.NewGuid()}@example.com";
-            var password = "StrongPass123$";
-            var client = CreateAuthenticatedClient(email, password);
+            // Login
+            var client = LoginAuthenticatedClient($"skibidiChungusDeluxeXXL@example.com", "StrongPass123$");
 
             // Get profile ID
             var userResponse = await client.GetAsync("/api/auth/me");
@@ -260,10 +266,8 @@ namespace TextbookExchangeApp.Tests.ProfilesController
         [Fact]
         public async Task GetReplies_ByValidProfileId_ShouldReturnOk()
         {
-            // New login
-            var email = $"getRepliesValidProfId{Guid.NewGuid()}@example.com";
-            var password = "StrongPass123$";
-            var client = CreateAuthenticatedClient(email, password);
+            // Login
+            var client = LoginAuthenticatedClient($"skibidiChungusDeluxeXXL@example.com", "StrongPass123$");
 
             // Get profile ID
             var userResponse = await client.GetAsync("/api/auth/me");
@@ -300,13 +304,25 @@ namespace TextbookExchangeApp.Tests.ProfilesController
         [Fact]
         public async Task GetReply_ByValidReplyId_ShouldReturnOk()
         {
-            // New login
-            var email = $"getReplyValidReplyId{Guid.NewGuid()}@example.com";
-            var password = "StrongPass123$";
-            var client = CreateAuthenticatedClient(email, password);
+            // New Login
+            var client = CreateAuthenticatedClient($"valid{Guid.NewGuid()}@example.com", "StrongPass123$");
 
-            var validReplyId = 17;  // This should be a known valid ID from seeded test data
-            var profileId = "1342b9f6-7f17-41a6-9fef-c843410b7ab7";  // This should be a valid user ID linked to the reply
+            // Get profile Id
+            var userResponse = await client.GetAsync("/api/auth/me");
+            var userJson = await userResponse.Content.ReadFromJsonAsync<JsonElement>();
+            var profileId = userJson.GetProperty("id").GetString();
+
+            // Create a reply
+            var createReplyResponse = await client.PostAsJsonAsync($"/api/profiles/{profileId}/replies", new
+            {
+                Rating = 5,
+                Message = "Do not delete this reply!"
+            });
+
+            Assert.Equal(HttpStatusCode.OK, createReplyResponse.StatusCode);
+
+            var replyJson = await createReplyResponse.Content.ReadFromJsonAsync<JsonElement>();
+            var validReplyId = replyJson.GetProperty("id").GetInt32();
 
             // Act
             var response = await client.GetAsync($"/api/profiles/{profileId}/replies/{validReplyId}");
@@ -322,14 +338,14 @@ namespace TextbookExchangeApp.Tests.ProfilesController
             Assert.Equal(validReplyId, idElement.GetInt32());
 
             Assert.True(root.TryGetProperty("message", out var messageElement));
-            Assert.False(string.IsNullOrWhiteSpace(messageElement.GetString()));
+            Assert.Equal("Do not delete this reply!", messageElement.GetString());
 
             Assert.True(root.TryGetProperty("rating", out var ratingElement));
             int rating = ratingElement.GetInt32();
             Assert.InRange(rating, 1, 5);
 
             Assert.True(root.TryGetProperty("createdAt", out var createdAtElement));
-            Assert.True(createdAtElement.GetDateTime() != default);
+            Assert.NotEqual(default, createdAtElement.GetDateTime());
 
             Assert.True(root.TryGetProperty("authorName", out var authorElement));
             Assert.False(string.IsNullOrWhiteSpace(authorElement.GetString()));
@@ -338,16 +354,28 @@ namespace TextbookExchangeApp.Tests.ProfilesController
         [Fact]
         public async Task GetReply_ByInvalidReplyId_ShouldReturnNotFound()
         {
-            // New login
-            var email = $"getReplyInvalidReplyId{Guid.NewGuid()}@example.com";
-            var password = "StrongPass123$";
-            var client = CreateAuthenticatedClient(email, password);
+            // Login
+            var client = LoginAuthenticatedClient($"skibidiChungusDeluxeXXL@example.com", "StrongPass123$");
 
-            var validProfileId = "1342b9f6-7f17-41a6-9fef-c843410b7ab7";
-            var invalidReplyId = 9999;
+            // Get profile Id
+            var userResponse = await client.GetAsync("/api/auth/me");
+            var userJson = await userResponse.Content.ReadFromJsonAsync<JsonElement>();
+            var profileId = userJson.GetProperty("id").GetString();
+
+            // Create a reply
+            var createReplyResponse = await client.PostAsJsonAsync($"/api/profiles/{profileId}/replies", new
+            {
+                Rating = 5,
+                Message = "Do not delete this reply!"
+            });
+
+            Assert.Equal(HttpStatusCode.OK, createReplyResponse.StatusCode);
+
+            var replyJson = await createReplyResponse.Content.ReadFromJsonAsync<JsonElement>();
+            var invalidReplyId = 99999;
 
             // Act
-            var response = await client.GetAsync($"/api/profiles/{validProfileId}/replies/{invalidReplyId}");
+            var response = await client.GetAsync($"/api/profiles/{profileId}/replies/{invalidReplyId}");
 
             // Assert
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
