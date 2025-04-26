@@ -12,6 +12,8 @@ services:
   frontend:
     build: ./frontend/textbook-exchange-app
     container_name: frontend
+    environment:
+      - VITE_BASE_API_URL=https://api.waffledev.me
     expose:
       - 4173
     ports:
